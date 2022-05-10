@@ -7,6 +7,8 @@ public class Controller_Vehicle : MonoBehaviour
     [Header("Attributes")]
     public float speed_Base_kmh = 6;
     public float acceleration = 5;
+    public float driftModifier = 0.5f;
+    public float turnSpeed = 1;
 
     public float speed_Modifier = 1;
 
@@ -35,12 +37,21 @@ public class Controller_Vehicle : MonoBehaviour
 				{
         int forwardModifier = (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
         int sidewayModifier = (Input.GetKey(KeyCode.D) ? 1 : 0) + (Input.GetKey(KeyCode.A) ? -1 : 0);
+      
+        float frictionModifier = Input.GetKey(KeyCode.Space) ? driftModifier : 1f;
+
+        if (frictionModifier != 1)
+            forwardModifier = 0;
+
+        transform.localEulerAngles += new Vector3(0, sidewayModifier * timeStep * turnSpeed, 0);
+
+        sidewayModifier = 0; // Temp
 
         float speed_Base = speed_Base_kmh / 6 / 6 * 10;
 
         Vector3 newVelocity = (transform.forward * forwardModifier + transform.right * sidewayModifier).normalized * speed_Base * speed_Modifier;
 
-        float frictionStep = acceleration * timeStep;
+        float frictionStep = acceleration * timeStep * frictionModifier;
 
         velocity -= velocity * frictionStep;
         velocity += newVelocity * frictionStep;

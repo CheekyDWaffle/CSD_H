@@ -228,7 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed_Base_kmh: 60
-  acceleration: 5
+  acceleration: 1
+  turnSpeed: 50
   speed_Modifier: 1
   velocity: {x: 0, y: 0, z: 0}
   currentSpeed: 
