@@ -146,7 +146,7 @@ public class Controller_MapBuild : MonoBehaviour
 
             for (int i = 0; i < currentRotation; i++)
             {
-                occupiedMarker.transform.eulerAngles += new Vector3(0, 0, 90);
+                occupiedMarker.transform.eulerAngles -= new Vector3(0, 0, 90);
             }
 
             if (alt)
