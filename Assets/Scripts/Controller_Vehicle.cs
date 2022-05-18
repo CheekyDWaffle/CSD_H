@@ -17,6 +17,21 @@ public class Controller_Vehicle : MonoBehaviour
     public Vector3 velocity;
     public string currentSpeed;
 
+    [System.Serializable]
+    public class Characters
+    {
+        public Transform playerTransform;
+        public Vector3 velocity;
+
+        public KeyCode forward = KeyCode.W;
+        public KeyCode backWards = KeyCode.S;
+        public KeyCode right = KeyCode.D;
+        public KeyCode left  = KeyCode.A;
+    }
+
+    public Characters[] players;
+
+    bool isInBuildMode = false;
 
     void Start()
     {
@@ -26,11 +41,22 @@ public class Controller_Vehicle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            isInBuildMode = !isInBuildMode;
+
+        if (!isInBuildMode)
+        {
+            return;
+        }
+
+
         float timeStep = Time.deltaTime;
 
         Move(timeStep);
 
         transform.position += velocity * timeStep;
+
     }
 
 				void Move(float timeStep)
