@@ -110,10 +110,7 @@ public class Controller_MapBuild : MonoBehaviour
 
     void SpawnTrack(Player localPlayer, bool alt)
     {
-
         Vector2 rawGrid = localPlayer.gridPosition / gridSize + new Vector2(gridLength, gridLength) / 2;
-
-        print(rawGrid);
 
         bool gridIsOccupied = gridCheck[(int)rawGrid.x, (int)rawGrid.y];
 

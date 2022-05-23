@@ -55,6 +55,8 @@ public class Controller_Vehicle : MonoBehaviour
 
         Move(timeStep);
 
+        OnCollisin();
+
         transform.position += velocity * timeStep;
 
     }
@@ -87,6 +89,52 @@ public class Controller_Vehicle : MonoBehaviour
         float speed_kmh = Mathf.Round(speed * 60 * 60 / 1000);
 
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
-								#endregion
+        #endregion
+
 				}
+
+
+
+
+
+
+
+
+
+    void OnCollisin()
+    {
+        Collider[] overlaps = new Collider[4];
+        LayerMask IgnoreLayer = ~new LayerMask();
+
+        BoxCollider boxCollider = GetComponent<BoxCollider>();
+        //CapsuleCollider cylinderCollider = GetComponent<CapsuleCollider>();
+
+        float colliderHeight = 2;
+        float colliderRadius = 0.5f;
+
+        Vector3 End = transform.position + transform.up * (colliderHeight / 2 - colliderRadius);
+
+        int lenght = Physics.OverlapBoxNonAlloc(transform.position + boxCollider.center, boxCollider.size * 1.5f, overlaps, transform.rotation, IgnoreLayer, QueryTriggerInteraction.Ignore);
+
+        for (int i = 0; i < lenght; i++)
+        {
+            Transform t = overlaps[i].transform;
+
+            if (t == transform)
+                continue;
+
+            Vector3 dir;
+            float distance;
+
+            if (Physics.ComputePenetration(boxCollider, transform.position + boxCollider.center, transform.rotation, overlaps[i], t.position, t.rotation, out dir, out distance))
+            {
+                dir = dir - Vector3.Project(dir, transform.up); // This is relative horizontal, not relative to gravity.
+
+                transform.position = transform.position + dir * distance;
+
+                velocity -= Vector3.Project(velocity, dir); // Removes the velocity once impacting with a wall.
+            }
+        }
+    }
+
 }
