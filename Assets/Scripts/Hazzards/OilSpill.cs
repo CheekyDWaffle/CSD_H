@@ -5,7 +5,6 @@ using UnityEngine;
 public class OilSpill : MonoBehaviour
 {
     public float tractionLoss, stearingLoss;
-
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.name + "entered");

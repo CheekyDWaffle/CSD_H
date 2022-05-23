@@ -10,16 +10,8 @@ public class RndHazardLocation : MonoBehaviour
     public int rayShots;
     public List<Vector3> rayHits;
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
 
-            HazardLocations(rayOrigin);
-        }
-    }
-
-    List<Vector3> HazardLocations(Vector3 rayOrigin)
+    public List<Vector3> HazardLocations(Vector3 rayOrigin)
     {
         rayHits = new List<Vector3>();
         while (rayHits.Count < rayShots)
