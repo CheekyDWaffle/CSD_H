@@ -19,10 +19,12 @@ public class Controller_MapBuild : MonoBehaviour
 
     [Header("Assign")]
     public Player[] players;
+    public Transform buildPhaseTransform;
     public Sprite occupied_I_Sprite;
     public Sprite occupied_L_Sprite;
     public GameObject prefab_track_I;
     public GameObject prefab_track_L;
+    public Controller_Vehicle car1;
 
     [Header("Settings")]
     public float cursorSpeed = 2;
@@ -34,6 +36,7 @@ public class Controller_MapBuild : MonoBehaviour
     public bool[,] gridCheck;
 
     bool isInBuildMode = true;
+    float buildModeChangeTimer = -1;
 
     int currentRotation = 0;
 
@@ -42,21 +45,41 @@ public class Controller_MapBuild : MonoBehaviour
     void Start()
     {
         gridCheck = new bool [gridLength, gridLength];
+        car1.pauseCar = isInBuildMode;
+        buildPhaseTransform.gameObject.SetActive(isInBuildMode);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            isInBuildMode = !isInBuildMode;
-
-        if (!isInBuildMode)
+        #region Buildmode Transition
         {
-                
-            return;
+            if (buildModeChangeTimer != -1)
+            {
+                buildModeChangeTimer -= Time.deltaTime;
+
+                if (buildModeChangeTimer < 0)
+                {
+                    isInBuildMode = !isInBuildMode;
+                    car1.pauseCar = isInBuildMode;
+
+                    buildModeChangeTimer = -1;
+                }
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) && buildModeChangeTimer == -1)
+                buildModeChangeTimer = Manager_UI.Get().Fade_Black();
+
+            buildPhaseTransform.gameObject.SetActive(isInBuildMode);
+
+            if (!isInBuildMode)
+            {
+                return;
+            }
         }
-  
+        #endregion
+
 
         float timeStep = Time.deltaTime;
 
@@ -137,7 +160,7 @@ public class Controller_MapBuild : MonoBehaviour
             newTrackPiece.position = new Vector3(rawGrid.x * trackSize, 0, rawGrid.y * trackSize);
 
 
-            GameObject occupiedMarker = Instantiate(localPlayer.cursor.gameObject, transform);
+            GameObject occupiedMarker = Instantiate(localPlayer.cursor.gameObject, buildPhaseTransform);
             occupiedMarker.GetComponent<Image>().sprite = alt ? occupied_L_Sprite : occupied_I_Sprite;
             occupiedMarker.GetComponent<Image>().color = Color.white;
 

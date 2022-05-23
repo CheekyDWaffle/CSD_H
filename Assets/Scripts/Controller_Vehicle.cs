@@ -30,8 +30,7 @@ public class Controller_Vehicle : MonoBehaviour
     }
 
     public Characters[] players;
-
-    bool isInBuildMode = false;
+    public bool pauseCar = false;
 
     void Start()
     {
@@ -42,14 +41,12 @@ public class Controller_Vehicle : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            isInBuildMode = !isInBuildMode;
 
-        if (!isInBuildMode)
+
+        if (pauseCar)
         {
             return;
         }
-
 
         float timeStep = Time.deltaTime;
 
