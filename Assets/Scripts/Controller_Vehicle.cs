@@ -10,7 +10,10 @@ public class Controller_Vehicle : MonoBehaviour
     public float driftModifier = 0.5f;
     public float turnSpeed = 1;
 
+    [Header("Temp Attributes")]
+    public float friction_Modifier = 1;
     public float speed_Modifier = 1;
+
 
     [Header("Settings")]
     public float checkPointSaveFrequency = 0.5f;
@@ -37,10 +40,17 @@ public class Controller_Vehicle : MonoBehaviour
     public Characters[] players;
     public bool pauseCar = false;
 
+    void Awake()
+    {
+        tag = "Player";
+    }
+
     void Start()
     {
-        
+        Manager_UI.Get().AdjustScreen();
     }
+
+  
 
     // Update is called once per frame
     void Update()
@@ -102,13 +112,13 @@ public class Controller_Vehicle : MonoBehaviour
 
         Vector3 newVelocity = (transform.forward * forwardModifier + transform.right * sidewayModifier).normalized * speed_Base * speed_Modifier;
 
-        float frictionStep = acceleration * timeStep * frictionModifier;
+        float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
 
         velocity -= velocity * frictionStep;
         velocity += newVelocity * frictionStep;
 
-								#region current Speed string
-								float speed = Mathf.Floor(velocity.magnitude * 100) / 100;
+        #region current Speed string
+        float speed = Mathf.Floor(velocity.magnitude * 100) / 100;
         float speed_kmh = Mathf.Round(speed * 60 * 60 / 1000);
 
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";

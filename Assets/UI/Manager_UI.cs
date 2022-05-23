@@ -39,6 +39,54 @@ public class Manager_UI : MonoBehaviour
         }
     }
 
+    public void AdjustScreen()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+
+        int playerCount = Mathf.Min(players.Length, 4);
+
+
+
+
+        for (int i = 0; i < playerCount; i++)
+        {
+            Transform currentPlayer = players[i].transform;
+
+            Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
+
+            int everyOther = Mathf.RoundToInt((float)i+1 / 2);
+            int everySecond = Mathf.RoundToInt((float)i+1 / 4);
+
+            playerCamera.targetDisplay = 0;
+
+            Rect rect = playerCamera.rect;
+
+            if (playerCount == 1)
+            {
+                rect.x = 0;
+                rect.y = 0;
+            }
+
+            if (playerCount == 2)
+            {
+                rect.x = 0;
+                rect.y = 0.5f * -everyOther;
+            }
+
+            if (playerCount > 2)
+            {
+                rect.x = 0.5f * everyOther;
+                rect.y = 0.5f * -everySecond;
+            }
+
+
+            playerCamera.rect = rect;
+
+
+        }
+    }
+
     // / Returns the time (+ X frames) until the screen is 100% black, in seconds.
     public float Fade_Black() 
     {

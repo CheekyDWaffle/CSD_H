@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 9085944114130018132}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,6 +219,8 @@ MonoBehaviour:
   driftModifier: 0.5
   turnSpeed: 50
   speed_Modifier: 1
+  checkPointSaveFrequency: 1
+  checkPointRollback: 2
   velocity: {x: 0, y: 0, z: 0}
   currentSpeed: 
   players:
@@ -246,6 +248,8 @@ MonoBehaviour:
     backWards: 0
     right: 0
     left: 0
+  pauseCar: 0
+  checkPoints: []
 --- !u!65 &1212367852590661430
 BoxCollider:
   m_ObjectHideFlags: 0
