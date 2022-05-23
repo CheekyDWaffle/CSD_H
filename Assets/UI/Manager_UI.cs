@@ -11,9 +11,6 @@ public class Manager_UI : MonoBehaviour
     private float BlackScreen_FadeTime_Timer = -1f;
     private float BlackScreen_FadeTime_Half { get { return (BlackScreen_FadeTime_Total - BlackScreen_FadeTime_RemainBlack) / 2; } }
 
-    [Header("Variables")]
-    public bool isinBuildmode = true;
-
     [Header("Assign")]
     public Image BlackScreen;
 

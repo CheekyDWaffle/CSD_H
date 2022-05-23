@@ -308,7 +308,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BlackScreen_FadeTime_Total: 0.5
   BlackScreen_FadeTime_RemainBlack: 0.1
-  isinBuildmode: 1
   BlackScreen: {fileID: 644217263}
 --- !u!114 &8232843830173854745
 MonoBehaviour:

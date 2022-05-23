@@ -12,6 +12,11 @@ public class Controller_Vehicle : MonoBehaviour
 
     public float speed_Modifier = 1;
 
+    [Header("Settings")]
+    public float checkPointSaveFrequency = 0.5f;
+    private float checkPointSaveTimer;
+    public float checkPointRollback = 2f;
+    private float deathTimer = -1;
 
     [Header("Read-Only")]
     public Vector3 velocity;
@@ -50,11 +55,29 @@ public class Controller_Vehicle : MonoBehaviour
 
         float timeStep = Time.deltaTime;
 
+
         Move(timeStep);
 
         OnCollisin();
 
+        CheckPointSaving();
+
         transform.position += velocity * timeStep;
+
+        if (deathTimer != -1)
+        {
+            deathTimer -= Time.deltaTime;
+
+            if(deathTimer < 0)
+												{
+                deathTimer = -1;
+                OnRespawn();
+												}
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.X))
+            OnDeath();
 
     }
 
@@ -92,7 +115,77 @@ public class Controller_Vehicle : MonoBehaviour
 
 
 
+    public List<CheckPoint> checkPoints;
+    [System.Serializable]
+    public struct CheckPoint
+				{
+        public Vector3 position;
+        public float time;
+				}
 
+    void CheckPointSaving()
+    {
+        checkPointSaveTimer += Time.deltaTime;
+
+        if (checkPointSaveTimer < checkPointSaveFrequency)
+            return;
+
+        bool isStable = velocity.y == 0;
+
+        /// I want to save my last grounded location ever X of a second.
+        /// In the future, I should also check if I am actually ahead of my previous checkpoint before saving it.
+        if (isStable)
+        {
+            CheckPoint newCheckPoint = new CheckPoint();
+
+            newCheckPoint.position = transform.position;
+            newCheckPoint.time = Time.timeSinceLevelLoad;
+
+            checkPoints.Add(newCheckPoint);
+            checkPointSaveTimer = 0;
+        }
+
+
+
+
+    }
+
+
+    void OnDeath()
+    {
+        if (deathTimer != -1)
+            return;
+
+        deathTimer = Manager_UI.Get().Fade_Black();
+    }
+
+    void OnRespawn()
+				{
+        /// Then, I want to respawn Y seconds "behind" my last grounded position.
+
+        #region Find Checkpoint
+
+        CheckPoint lastCheckPoint = checkPoints[checkPoints.Count - 1];
+        float baseTime = lastCheckPoint.time;
+
+        for (int i = 0; i < checkPoints.Count; i++)
+        {
+            int index = checkPoints.Count - 1 - i; // I really don't want to mess with loops right now.
+
+            float relativeTime = baseTime - checkPoints[index].time;
+
+            if (relativeTime < checkPointRollback) // if this checkpoint has NOT surprassed the rollback time yet.
+                lastCheckPoint = checkPoints[index];
+            else
+                break;
+        }
+        #endregion
+
+        transform.position = lastCheckPoint.position;
+        velocity = Vector3.zero;
+
+        /// If I die within Z seconds of respawning, I respawn 5 seconds behind. Or begenning of last tile, when that is implemented.
+    }
 
 
 
