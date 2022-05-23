@@ -308,6 +308,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BlackScreen_FadeTime_Total: 0.5
   BlackScreen_FadeTime_RemainBlack: 0.1
+  colors:
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0.27892852, b: 1, a: 0}
+  - {r: 0.08037208, g: 0.5660378, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0.70319223, a: 0}
   BlackScreen: {fileID: 644217263}
 --- !u!114 &8232843830173854745
 MonoBehaviour:

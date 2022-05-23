@@ -10,6 +10,7 @@ public class Manager_UI : MonoBehaviour
     public float BlackScreen_FadeTime_RemainBlack = 0.33f;
     private float BlackScreen_FadeTime_Timer = -1f;
     private float BlackScreen_FadeTime_Half { get { return (BlackScreen_FadeTime_Total - BlackScreen_FadeTime_RemainBlack) / 2; } }
+    public Color[] colors;
 
     [Header("Assign")]
     public Image BlackScreen;
@@ -43,22 +44,23 @@ public class Manager_UI : MonoBehaviour
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        Fade_Black();
 
         int playerCount = Mathf.Min(players.Length, 4);
-
-
-
+        bool everyOther = false;
 
         for (int i = 0; i < playerCount; i++)
         {
             Transform currentPlayer = players[i].transform;
 
+            currentPlayer.GetComponentInChildren<MeshRenderer>().material.color = colors[i];
+
             Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
 
-            int everyOther = Mathf.RoundToInt((float)i+1 / 2);
-            int everySecond = Mathf.RoundToInt((float)i+1 / 4);
+          
+            bool aboveThree = i > 1;
 
-            playerCamera.targetDisplay = 0;
+            //playerCamera.targetDisplay = i;
 
             Rect rect = playerCamera.rect;
 
@@ -71,19 +73,19 @@ public class Manager_UI : MonoBehaviour
             if (playerCount == 2)
             {
                 rect.x = 0;
-                rect.y = 0.5f * -everyOther;
+                rect.y = 0.5f * (everyOther ? -1 : 1);
             }
 
             if (playerCount > 2)
             {
-                rect.x = 0.5f * everyOther;
-                rect.y = 0.5f * -everySecond;
+                rect.x = 0.5f * (everyOther ? 1 : -1);
+                rect.y = 0.5f * (aboveThree ? -1 : 1);
             }
 
 
             playerCamera.rect = rect;
 
-
+            everyOther = !everyOther;
         }
     }
 

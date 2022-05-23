@@ -218,6 +218,7 @@ MonoBehaviour:
   acceleration: 1
   driftModifier: 0.5
   turnSpeed: 50
+  friction_Modifier: 1
   speed_Modifier: 1
   checkPointSaveFrequency: 1
   checkPointRollback: 2
