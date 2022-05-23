@@ -79,6 +79,9 @@ public class Controller_Vehicle : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
             OnDeath();
 
+        if (transform.position.y < -10)
+            OnDeath();
+
     }
 
 				void Move(float timeStep)
@@ -168,11 +171,15 @@ public class Controller_Vehicle : MonoBehaviour
         CheckPoint lastCheckPoint = checkPoints[checkPoints.Count - 1];
         float baseTime = lastCheckPoint.time;
 
-        for (int i = 0; i < checkPoints.Count; i++)
+        Vector3 relativeForward = Vector3.zero;
+
+        for (int i = 1; i < checkPoints.Count; i++)
         {
             int index = checkPoints.Count - 1 - i; // I really don't want to mess with loops right now.
 
             float relativeTime = baseTime - checkPoints[index].time;
+
+            relativeForward = checkPoints[index + 1].position - checkPoints[index].position;
 
             if (relativeTime < checkPointRollback) // if this checkpoint has NOT surprassed the rollback time yet.
                 lastCheckPoint = checkPoints[index];
@@ -182,6 +189,7 @@ public class Controller_Vehicle : MonoBehaviour
         #endregion
 
         transform.position = lastCheckPoint.position;
+        transform.forward = relativeForward.normalized;
         velocity = Vector3.zero;
 
         /// If I die within Z seconds of respawning, I respawn 5 seconds behind. Or begenning of last tile, when that is implemented.
