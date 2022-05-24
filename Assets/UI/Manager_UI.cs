@@ -53,9 +53,22 @@ public class Manager_UI : MonoBehaviour
         {
             Transform currentPlayer = players[i].transform;
 
-            currentPlayer.GetComponentInChildren<MeshRenderer>().material.color = colors[i];
+            if (playerCount > 1) // Multiplayer Options Only:
+            {
+                currentPlayer.GetComponentInChildren<MeshRenderer>().material.color = colors[i];
+
+                float playerWidth = currentPlayer.GetComponent<BoxCollider>().size.x;
+
+                if (Vector3.Distance(currentPlayer.position, players[0].transform.position) < playerWidth)
+                {
+                    currentPlayer.position += currentPlayer.right * playerWidth * 1.1f * i;
+                }
+            }
 
             Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
+
+
+            
 
           
             bool aboveThree = i > 1;
