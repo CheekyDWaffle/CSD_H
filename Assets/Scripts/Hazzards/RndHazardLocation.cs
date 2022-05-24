@@ -34,7 +34,7 @@ public class RndHazardLocation : MonoBehaviour
         Gizmos.color = Color.red;
         foreach (Vector3 item in rayHits)
         {
-            Gizmos.DrawCube(item, Vector3.one * 5);
+            Gizmos.DrawCube(item, Vector3.one);
         }
     }
 }
