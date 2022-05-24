@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OilSpill : MonoBehaviour
+public class hazard_RND_OilSpil : MonoBehaviour
 {
     public float tractionLoss, stearingLoss;
     private void OnTriggerEnter(Collider other)

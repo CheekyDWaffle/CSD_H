@@ -34,7 +34,7 @@ public class Controller_Vehicle : MonoBehaviour
         public KeyCode forward = KeyCode.W;
         public KeyCode backWards = KeyCode.S;
         public KeyCode right = KeyCode.D;
-        public KeyCode left  = KeyCode.A;
+        public KeyCode left = KeyCode.A;
     }
 
     public Characters[] players;
@@ -50,7 +50,7 @@ public class Controller_Vehicle : MonoBehaviour
         Manager_UI.Get().AdjustScreen();
     }
 
-  
+
 
     // Update is called once per frame
     void Update()
@@ -78,11 +78,11 @@ public class Controller_Vehicle : MonoBehaviour
         {
             deathTimer -= Time.deltaTime;
 
-            if(deathTimer < 0)
-												{
+            if (deathTimer < 0)
+            {
                 deathTimer = -1;
                 OnRespawn();
-												}
+            }
         }
 
 
@@ -94,11 +94,11 @@ public class Controller_Vehicle : MonoBehaviour
 
     }
 
-				void Move(float timeStep)
-				{
+    void Move(float timeStep)
+    {
         int forwardModifier = (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
         int sidewayModifier = (Input.GetKey(KeyCode.D) ? 1 : 0) + (Input.GetKey(KeyCode.A) ? -1 : 0);
-      
+
         float frictionModifier = Input.GetKey(KeyCode.Space) ? driftModifier : 1f;
 
         if (frictionModifier != 1)
@@ -124,17 +124,17 @@ public class Controller_Vehicle : MonoBehaviour
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
         #endregion
 
-				}
+    }
 
 
 
     public List<CheckPoint> checkPoints;
     [System.Serializable]
     public struct CheckPoint
-				{
+    {
         public Vector3 position;
         public float time;
-				}
+    }
 
     void CheckPointSaving()
     {
@@ -164,7 +164,7 @@ public class Controller_Vehicle : MonoBehaviour
     }
 
 
-    void OnDeath()
+    public void OnDeath()
     {
         if (deathTimer != -1)
             return;
@@ -173,7 +173,7 @@ public class Controller_Vehicle : MonoBehaviour
     }
 
     void OnRespawn()
-				{
+    {
         /// Then, I want to respawn Y seconds "behind" my last grounded position.
 
         #region Find Checkpoint
