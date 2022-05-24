@@ -25,6 +25,8 @@ public class Controller_MapBuild : MonoBehaviour
     public GameObject prefab_track_I;
     public GameObject prefab_track_L;
     public Controller_Vehicle car1;
+    public MonoBehaviour hazardManager;
+    public Canvas hazard_UI;
 
     [Header("Settings")]
     public float cursorSpeed = 2;
@@ -121,7 +123,10 @@ public class Controller_MapBuild : MonoBehaviour
                 SpawnTrack(localPlayer, true);
             }
 
-
+            if (Input.GetKey(KeyCode.Return))
+            {
+                //spawnMod trenger vector 3 til selected track som sendes til hazard manager, og åpner TrackMod selection menue.
+            }
 
 
 

@@ -17,6 +17,7 @@ public class HazardManager : MonoBehaviour
             Instantiate(trackModPrefab[trackMod], randVector3[i],Quaternion.identity);
         }
     }
+
     public void hazardSone()
     {
 
