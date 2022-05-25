@@ -131,10 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c044db92be51184abd6ce2c79e43e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed_Base_kmh: 60
+  speed_Base_kmh: 120
   acceleration: 1
-  driftModifier: 0.5
-  turnSpeed: 50
+  driftModifier: 1.5
+  turnSpeed: 75
   friction_Modifier: 1
   speed_Modifier: 1
   checkPointSaveFrequency: 1

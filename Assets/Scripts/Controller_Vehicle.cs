@@ -20,10 +20,14 @@ public class Controller_Vehicle : MonoBehaviour
     private float checkPointSaveTimer;
     public float checkPointRollback = 2f;
     private float deathTimer = -1;
+    private float returnToTrackTimer = -1;
 
     [Header("Read-Only")]
     public Vector3 velocity;
     public string currentSpeed;
+
+    Vector3 startPos;
+    Vector3 startRot;
 
     [System.Serializable]
     public class Characters
@@ -48,6 +52,9 @@ public class Controller_Vehicle : MonoBehaviour
     void Start()
     {
         Manager_UI.Get().AdjustScreen();
+
+        startPos = transform.position;
+        startRot = transform.eulerAngles;
     }
 
 
@@ -92,6 +99,26 @@ public class Controller_Vehicle : MonoBehaviour
         if (transform.position.y < -10)
             OnDeath();
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            returnToTrackTimer = Manager_UI.Get().Fade_Black();
+        }
+           
+
+
+        if (returnToTrackTimer != -1)
+        {
+            returnToTrackTimer -= timeStep;
+
+            if(returnToTrackTimer < 0)
+												{
+                returnToTrackTimer = -1;
+
+                transform.position = startPos;
+                transform.eulerAngles = startRot;
+                velocity = Vector3.zero;
+												}
+        }
     }
 
     void Move(float timeStep)

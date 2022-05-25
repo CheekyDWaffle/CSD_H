@@ -25,8 +25,8 @@ public class Controller_MapBuild : MonoBehaviour
     public GameObject prefab_track_I;
     public GameObject prefab_track_L;
     public Controller_Vehicle car1;
-    public MonoBehaviour hazardManager;
     public Canvas hazard_UI;
+    public HazardManager managerHazard;
 
     [Header("Settings")]
     public float cursorSpeed = 2;
@@ -37,7 +37,7 @@ public class Controller_MapBuild : MonoBehaviour
     [Header("Read Only")]
     public bool[,] gridCheck;
 
-    bool isInBuildMode = true;
+    bool isInBuildMode = false;
     float buildModeChangeTimer = -1;
 
     int currentRotation = 0;
@@ -94,9 +94,9 @@ public class Controller_MapBuild : MonoBehaviour
         localPlayer.cursorInput = new Vector2(moveHorizontal, moveVertical);
 
 
-        for (int i = 0; i < players.Length; i++)
+        for (int i = 0; i < 1; i++)
         {
-            Player currentPlayer = players[0];
+            Player currentPlayer = players[i];
 
             currentPlayer.worldPosition += currentPlayer.cursorInput * cursorSpeed * timeStep;
             currentPlayer.gridPosition.x = Mathf.Round(currentPlayer.worldPosition.x / gridSize) * gridSize;
@@ -108,17 +108,24 @@ public class Controller_MapBuild : MonoBehaviour
 
             currentPlayer.cursor.localPosition = gridUI;
 
-    
+            //Vector3 hazardVector = new Vector3(currentPlayer.worldPosition.x, 0.9f, currentPlayer.worldPosition.y);
+
+            //managerHazard.raycastOrigin = hazardVector;
 
 
 
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (false && Input.GetKeyDown(KeyCode.Space))
             {
                 SpawnTrack(localPlayer, false);
+
+                //Vector3 hazardVector = new Vector3(currentPlayer.worldPosition.x, 0, currentPlayer.worldPosition.y);
+
+                //managerHazard.raycastOrigin = hazardVector;
+                //managerHazard.randomSpawn(0);
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (false && Input.GetKeyDown(KeyCode.F))
             {
                 SpawnTrack(localPlayer, true);
             }

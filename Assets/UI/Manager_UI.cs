@@ -16,11 +16,14 @@ public class Manager_UI : MonoBehaviour
     public Image BlackScreen;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
         BlackScreen.enabled = true;
         BlackScreen.CrossFadeAlpha(0, 0, false);
+
+
 
     }
 
