@@ -30,6 +30,7 @@ public class RndHazardLocation : MonoBehaviour
             }
             if (loopBreak <=0)
             {
+                print("failed loop");
                 break;
             }
 
