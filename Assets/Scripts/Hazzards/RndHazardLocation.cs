@@ -6,13 +6,15 @@ public class RndHazardLocation : MonoBehaviour
 {
     public Vector3 rayOrigin;
 
-    public float rayMaxDist, radius;
+    public float radius;
     public int rayShots;
     public List<Vector3> rayHits;
 
+    int loopBreak = 0;
 
     public List<Vector3> HazardLocations(Vector3 rayOrigin)
     {
+        loopBreak = 0;
         rayHits = new List<Vector3>();
         while (rayHits.Count < rayShots)
         {
@@ -20,7 +22,7 @@ public class RndHazardLocation : MonoBehaviour
             Vector3 ranLoc = new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
             ranLoc += rayOrigin;
 
-            if (Physics.Raycast(ranLoc, Vector3.down, out hit, rayMaxDist))
+            if (Physics.Raycast(ranLoc, Vector3.down, out hit, 1000))
             {
                 //check for valid hit
                 rayHits.Add(hit.point);

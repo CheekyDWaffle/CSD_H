@@ -9,6 +9,10 @@ public class hazard_RND_Rock : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Controller_Vehicle>().OnDeath();
+            other.GetComponent<Controller_Vehicle>().velocity = Vector3.zero;
+
         }
     }
+
+    
 }
