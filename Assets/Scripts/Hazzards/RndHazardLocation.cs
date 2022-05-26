@@ -14,10 +14,11 @@ public class RndHazardLocation : MonoBehaviour
 
     public List<Vector3> HazardLocations(Vector3 rayOrigin)
     {
-        loopBreak = 0;
+        loopBreak = 100;
         rayHits = new List<Vector3>();
         while (rayHits.Count < rayShots)
         {
+            loopBreak--;
             RaycastHit hit;
             Vector3 ranLoc = new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
             ranLoc += rayOrigin;
@@ -27,6 +28,11 @@ public class RndHazardLocation : MonoBehaviour
                 //check for valid hit
                 rayHits.Add(hit.point);
             }
+            if (loopBreak <=0)
+            {
+                break;
+            }
+
         }
         return rayHits;
 
