@@ -9765,31 +9765,41 @@ MonoBehaviour:
   checkPointRollback: 2
   velocity: {x: 0, y: 0, z: 0}
   currentSpeed: 
-  players:
-  - playerTransform: {fileID: 0}
-    velocity: {x: 0, y: 0, z: 0}
+  DriftSmoke:
+  - {fileID: 6140148086497299741}
+  - {fileID: 5051175720996314099}
+  Inputs:
+  - playerName: Player 1
     forward: 119
+    backWards: 115
+    right: 100
+    left: 97
+    handBrake: 32
+  - playerName: Player 2
+    forward: 0
     backWards: 0
     right: 0
     left: 0
-  - playerTransform: {fileID: 0}
-    velocity: {x: 0, y: 0, z: 0}
-    forward: 49
+    handBrake: 0
+  - playerName: Player 3
+    forward: 0
     backWards: 0
     right: 0
     left: 0
-  - playerTransform: {fileID: 9085944114988888868}
-    velocity: {x: 0, y: 0, z: 0}
-    forward: 282
+    handBrake: 0
+  - playerName: Player 4
+    forward: 0
     backWards: 0
     right: 0
     left: 0
-  - playerTransform: {fileID: 0}
-    velocity: {x: 0, y: 0, z: 0}
-    forward: 292
-    backWards: 0
-    right: 0
-    left: 0
+    handBrake: 0
+  currentInput:
+    playerName: Player X
+    forward: 119
+    backWards: 115
+    right: 100
+    left: 97
+    handBrake: 32
   pauseCar: 0
   checkPoints: []
 --- !u!65 &1212367852590661430

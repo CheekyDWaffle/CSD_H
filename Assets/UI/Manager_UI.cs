@@ -68,6 +68,24 @@ public class Manager_UI : MonoBehaviour
                 }
             }
 
+            if(false && playerCount == 1)
+												{
+               // Image SubFadeScreen = BlackScreen.transform.GetChild(i).GetComponent<Image>();
+
+               // RectTransform.anchor newAnchor = SubFadeScreen.rectTransform.anchorMin;
+
+               // newRect.anchorMin.x = 0;
+
+
+               // SubFadeScreen.rectTransform = newRect;
+
+            }
+
+
+            Controller_Vehicle playerController = currentPlayer.GetComponent<Controller_Vehicle>();
+
+            playerController.currentInput = playerController.Inputs[i];
+
             Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
 
 

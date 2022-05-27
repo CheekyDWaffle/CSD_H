@@ -6,6 +6,7 @@ public class Controller_Vehicle : MonoBehaviour
 {
     [Header("Attributes")]
     public float speed_Base_kmh = 6;
+    private float speed_Base_ms {get { return speed_Base_kmh / 60 / 60 * 1000; } }
     public float acceleration = 5;
     public float driftModifier = 0.5f;
     public float turnSpeed = 1;
@@ -26,27 +27,37 @@ public class Controller_Vehicle : MonoBehaviour
     public Vector3 velocity;
     public string currentSpeed;
 
+    [Header("Particles")]
+    public ParticleSystem[] DriftSmoke;
+
     Vector3 startPos;
     Vector3 startRot;
+    float distanceToGround;
 
     [System.Serializable]
-    public class Characters
+    public class PlayerInput
     {
-        public Transform playerTransform;
-        public Vector3 velocity;
+        public string playerName = "Player X";
 
         public KeyCode forward = KeyCode.W;
         public KeyCode backWards = KeyCode.S;
         public KeyCode right = KeyCode.D;
         public KeyCode left = KeyCode.A;
+
+        public KeyCode handBrake = KeyCode.Space;
     }
 
-    public Characters[] players;
+    public PlayerInput[] Inputs;
+
+    [HideInInspector]
+    public PlayerInput currentInput;
+
     public bool pauseCar = false;
 
     void Awake()
     {
         tag = "Player";
+        currentInput = Inputs[0];
     }
 
     void Start()
@@ -55,6 +66,10 @@ public class Controller_Vehicle : MonoBehaviour
 
         startPos = transform.position;
         startRot = transform.eulerAngles;
+
+        RaycastHit groundCheck;
+        Physics.Raycast(transform.position, Vector3.down, out groundCheck);
+        distanceToGround = groundCheck.distance;
     }
 
 
@@ -72,6 +87,7 @@ public class Controller_Vehicle : MonoBehaviour
 
         float timeStep = Time.deltaTime;
 
+        Particles();
 
         Move(timeStep);
 
@@ -123,10 +139,25 @@ public class Controller_Vehicle : MonoBehaviour
 
     void Move(float timeStep)
     {
-        int forwardModifier = (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
-        int sidewayModifier = (Input.GetKey(KeyCode.D) ? 1 : 0) + (Input.GetKey(KeyCode.A) ? -1 : 0);
+        RaycastHit groundCheck;
+        Physics.Raycast(transform.position, Vector3.down, out groundCheck);
+        bool isGrounded = groundCheck.transform != null && groundCheck.distance <= distanceToGround;
 
-        float frictionModifier = Input.GetKey(KeyCode.Space) ? driftModifier : 1f;
+        if (isGrounded)
+        {
+
+
+            velocity.y = 0;
+        }
+        else
+        {
+            velocity += Physics.gravity * timeStep;
+        }
+
+        int forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
+        int sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
+
+        float frictionModifier = Input.GetKey(currentInput.handBrake) ? driftModifier : 1f;
 
         if (frictionModifier != 1)
             forwardModifier = 0;
@@ -153,6 +184,18 @@ public class Controller_Vehicle : MonoBehaviour
 
     }
 
+
+    void Particles()
+				{
+        bool isDrifting = Input.GetKey(currentInput.handBrake) && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
+
+        for (int i = 0; i < DriftSmoke.Length; i++)
+								{
+            DriftSmoke[i].enableEmission = isDrifting;
+
+								}
+
+    }
 
 
     public List<CheckPoint> checkPoints;

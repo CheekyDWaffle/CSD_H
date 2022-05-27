@@ -108,14 +108,13 @@ public class Controller_MapBuild : MonoBehaviour
 
             currentPlayer.cursor.localPosition = gridUI;
 
-            //Vector3 hazardVector = new Vector3(currentPlayer.worldPosition.x, 0.9f, currentPlayer.worldPosition.y);
+            Vector3 hazardVector = new Vector3(currentPlayer.worldPosition.x, 0.9f, currentPlayer.worldPosition.y);
 
-            //managerHazard.raycastOrigin = hazardVector;
-
-
+           managerHazard.raycastOrigin = hazardVector;
 
 
-            if (false && Input.GetKeyDown(KeyCode.Space))
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 SpawnTrack(localPlayer, false);
 
@@ -125,7 +124,7 @@ public class Controller_MapBuild : MonoBehaviour
                 //managerHazard.randomSpawn(0);
             }
 
-            if (false && Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 SpawnTrack(localPlayer, true);
             }
@@ -169,7 +168,7 @@ public class Controller_MapBuild : MonoBehaviour
             }
 
 
-            newTrackPiece.position = new Vector3(rawGrid.x * trackSize, 0, rawGrid.y * trackSize);
+            newTrackPiece.position = new Vector3(rawGrid.x * trackSize + trackSize/2, 0, rawGrid.y * trackSize + trackSize / 2);
 
 
             GameObject occupiedMarker = Instantiate(localPlayer.cursor.gameObject, buildPhaseTransform);
