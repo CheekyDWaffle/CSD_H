@@ -14,7 +14,13 @@ public class Manager_UI : MonoBehaviour
 
     [Header("Assign")]
     public Image BlackScreen;
+    private FadeScreen[] FadeScreens;
 
+    public struct FadeScreen
+				{
+        public Image BlackScreen;
+        public float timer;
+    }
 
 
     // Start is called before the first frame update
@@ -24,6 +30,19 @@ public class Manager_UI : MonoBehaviour
         BlackScreen.CrossFadeAlpha(0, 0, false);
 
 
+        FadeScreens = new FadeScreen[BlackScreen.transform.childCount + 1];
+
+        FadeScreens[0].BlackScreen = BlackScreen;
+        FadeScreens[0].timer = -1;
+
+        for (int i = 1; i < FadeScreens.Length; i++)
+        {
+            FadeScreens[i].BlackScreen = BlackScreen.transform.GetChild(i-1).GetComponent<Image>();
+            FadeScreens[i].timer = -1;
+
+            FadeScreens[i].BlackScreen.enabled = true;
+            FadeScreens[i].BlackScreen.CrossFadeAlpha(0, 0, false);
+        }
 
     }
 
@@ -31,7 +50,7 @@ public class Manager_UI : MonoBehaviour
     void Update()
     {
 
-        if (BlackScreen_FadeTime_Timer != -1) // All of the timer shenanigans
+        if (false && BlackScreen_FadeTime_Timer != -1) // All of the timer shenanigans
         {
             BlackScreen_FadeTime_Timer -= Time.deltaTime;
 
@@ -40,6 +59,22 @@ public class Manager_UI : MonoBehaviour
                 BlackScreen_FadeTime_Timer = -1;
                 BlackScreen.CrossFadeAlpha(0, BlackScreen_FadeTime_Half, false);
             }
+        }
+
+
+        for (int i = 0; i < FadeScreens.Length; i++)
+        {
+            if(FadeScreens[i].timer != -1)
+												{
+                FadeScreens[i].timer -= Time.deltaTime;
+
+                if(FadeScreens[i].timer < 0)
+																{
+                    FadeScreens[i].timer = -1;
+
+                    FadeScreens[i].BlackScreen.CrossFadeAlpha(0, BlackScreen_FadeTime_Half, false);
+                }
+												}
         }
     }
 
@@ -68,23 +103,11 @@ public class Manager_UI : MonoBehaviour
                 }
             }
 
-            if(false && playerCount == 1)
-												{
-               // Image SubFadeScreen = BlackScreen.transform.GetChild(i).GetComponent<Image>();
-
-               // RectTransform.anchor newAnchor = SubFadeScreen.rectTransform.anchorMin;
-
-               // newRect.anchorMin.x = 0;
-
-
-               // SubFadeScreen.rectTransform = newRect;
-
-            }
-
 
             Controller_Vehicle playerController = currentPlayer.GetComponent<Controller_Vehicle>();
 
             playerController.currentInput = playerController.Inputs[i];
+            playerController.playerIndex = i;
 
             Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
 
@@ -98,6 +121,11 @@ public class Manager_UI : MonoBehaviour
 
             Rect rect = playerCamera.rect;
 
+            Image SubFadeScreen = BlackScreen.transform.GetChild(i).GetComponent<Image>();
+            Vector2 min = Vector2.zero;
+            Vector2 max = Vector2.one;
+
+
             if (playerCount == 1)
             {
                 rect.x = 0;
@@ -108,6 +136,12 @@ public class Manager_UI : MonoBehaviour
             {
                 rect.x = 0;
                 rect.y = 0.5f * (everyOther ? -1 : 1);
+
+                min.x = (i == 0 ? 0 : 0f);
+                min.y = (i == 0 ? 0.5f : 0f);
+
+                max.x = (i == 0 ? 1f : 1f);
+                max.y = (i == 0 ? 1f : 0.5f);
             }
 
             if (playerCount > 2)
@@ -118,16 +152,19 @@ public class Manager_UI : MonoBehaviour
 
 
             playerCamera.rect = rect;
-
             everyOther = !everyOther;
+
+            SubFadeScreen.enabled = true;
+            SubFadeScreen.rectTransform.anchorMin = min;
+            SubFadeScreen.rectTransform.anchorMax = max;
         }
     }
 
     // / Returns the time (+ X frames) until the screen is 100% black, in seconds.
-    public float Fade_Black() 
+    public float Fade_Black(int subIndex = 0) 
     {
-        BlackScreen_FadeTime_Timer = BlackScreen_FadeTime_Half + BlackScreen_FadeTime_RemainBlack;
-        BlackScreen.CrossFadeAlpha(1, BlackScreen_FadeTime_Half, false);
+        FadeScreens[subIndex].timer = BlackScreen_FadeTime_Half + BlackScreen_FadeTime_RemainBlack;
+        FadeScreens[subIndex].BlackScreen.CrossFadeAlpha(1, BlackScreen_FadeTime_Half, false);
         return BlackScreen_FadeTime_Half + Time.deltaTime * 1; // The X frames serves as simply as a buffer, so that no instant changes will ever be visible
     }
 

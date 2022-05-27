@@ -33,6 +33,9 @@ public class Controller_Vehicle : MonoBehaviour
     Vector3 startPos;
     Vector3 startRot;
     float distanceToGround;
+    
+    [HideInInspector]
+    public int playerIndex = 0;
 
     [System.Serializable]
     public class PlayerInput
@@ -117,7 +120,7 @@ public class Controller_Vehicle : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            returnToTrackTimer = Manager_UI.Get().Fade_Black();
+            returnToTrackTimer = Manager_UI.Get().Fade_Black(1 + playerIndex);
         }
            
 
@@ -239,7 +242,7 @@ public class Controller_Vehicle : MonoBehaviour
         if (deathTimer != -1)
             return;
 
-        deathTimer = Manager_UI.Get().Fade_Black();
+        deathTimer = Manager_UI.Get().Fade_Black(1 + playerIndex);
     }
 
     void OnRespawn()
