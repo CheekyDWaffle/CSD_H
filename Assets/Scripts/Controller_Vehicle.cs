@@ -23,9 +23,11 @@ public class Controller_Vehicle : MonoBehaviour
     private float deathTimer = -1;
     private float returnToTrackTimer = -1;
 
-    [Header("Read-Only")]
+    [Header("Read-Only (That means don't touch)")]
     public Vector3 velocity;
     public string currentSpeed;
+    public int lapCount = 0;
+    public bool isGoingReverse = false;
 
     [Header("Particles")]
     public ParticleSystem[] DriftSmoke;
@@ -33,6 +35,7 @@ public class Controller_Vehicle : MonoBehaviour
     Vector3 startPos;
     Vector3 startRot;
     float distanceToGround;
+    Manager_Goals goalManager;
     
     [HideInInspector]
     public int playerIndex = 0;
@@ -67,6 +70,8 @@ public class Controller_Vehicle : MonoBehaviour
     {
         Manager_UI.Get().AdjustScreen();
 
+        goalManager = Manager_UI.Get().GetComponent<Manager_Goals>();
+
         startPos = transform.position;
         startRot = transform.eulerAngles;
 
@@ -75,7 +80,7 @@ public class Controller_Vehicle : MonoBehaviour
         distanceToGround = groundCheck.distance;
     }
 
-
+    float goalCooldwon;
 
     // Update is called once per frame
     void Update()
@@ -90,6 +95,8 @@ public class Controller_Vehicle : MonoBehaviour
 
         float timeStep = Time.deltaTime;
 
+        goalCooldwon -= Time.deltaTime;
+
         Particles();
 
         Move(timeStep);
@@ -99,6 +106,9 @@ public class Controller_Vehicle : MonoBehaviour
         CheckPointSaving();
 
         transform.position += velocity * timeStep;
+
+        if (goalCooldwon < 0 && goalManager.isPassingGoal(transform, velocity, isGoingReverse, lapCount, out isGoingReverse, out lapCount))
+            goalCooldwon = 0.5f;
 
         if (deathTimer != -1)
         {
@@ -120,7 +130,7 @@ public class Controller_Vehicle : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            returnToTrackTimer = Manager_UI.Get().Fade_Black(1 + playerIndex);
+            returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
         }
            
 
@@ -136,11 +146,19 @@ public class Controller_Vehicle : MonoBehaviour
                 transform.position = startPos;
                 transform.eulerAngles = startRot;
                 velocity = Vector3.zero;
-												}
+
+                lapCount = 0;
+            }
         }
     }
 
-    void Move(float timeStep)
+				public void Reset()
+				{
+        returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
+        lapCount = 0;
+    }
+
+				void Move(float timeStep)
     {
         RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
@@ -242,7 +260,7 @@ public class Controller_Vehicle : MonoBehaviour
         if (deathTimer != -1)
             return;
 
-        deathTimer = Manager_UI.Get().Fade_Black(1 + playerIndex);
+        deathTimer = Manager_UI.Get().Fade_Black(playerIndex);
     }
 
     void OnRespawn()

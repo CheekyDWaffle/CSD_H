@@ -108,13 +108,16 @@ public class Controller_MapBuild : MonoBehaviour
 
             currentPlayer.cursor.localPosition = gridUI;
 
-            Vector3 hazardVector = new Vector3(currentPlayer.worldPosition.x, 0.9f, currentPlayer.worldPosition.y);
+												#region This whole region makes no sense, what am I doing??? - Talha
+												Vector2 rawGrid = localPlayer.gridPosition / gridSize + new Vector2(gridLength, gridLength) / 2;
 
-           managerHazard.raycastOrigin = hazardVector;
+            Vector3 hazardVector = new Vector3(currentPlayer.gridPosition.x + gridLength/2, 0.9f, currentPlayer.gridPosition.y + gridLength / 2);
 
+            managerHazard.raycastOrigin = new Vector3(rawGrid.x * trackSize + trackSize / 2, 0.9f, rawGrid.y * trackSize + trackSize / 2);
 
+												#endregion
 
-            if (Input.GetKeyDown(KeyCode.Space))
+												if (Input.GetKeyDown(KeyCode.Space))
             {
                 SpawnTrack(localPlayer, false);
 

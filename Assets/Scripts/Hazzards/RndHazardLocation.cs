@@ -14,7 +14,8 @@ public class RndHazardLocation : MonoBehaviour
 
     public List<Vector3> HazardLocations(Vector3 rayOrigin)
     {
-        loopBreak = 100;
+        print(rayOrigin);
+        loopBreak = 1000;
         rayHits = new List<Vector3>();
         while (rayHits.Count < rayShots)
         {

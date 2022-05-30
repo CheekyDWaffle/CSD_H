@@ -160,11 +160,13 @@ public class Manager_UI : MonoBehaviour
         }
     }
 
-    // / Returns the time (+ X frames) until the screen is 100% black, in seconds.
-    public float Fade_Black(int subIndex = 0) 
+    /// Returns the time (+ X frames) until the screen is 100% black, in seconds.
+    public float Fade_Black(int playerIndex = -1) 
     {
-        FadeScreens[subIndex].timer = BlackScreen_FadeTime_Half + BlackScreen_FadeTime_RemainBlack;
-        FadeScreens[subIndex].BlackScreen.CrossFadeAlpha(1, BlackScreen_FadeTime_Half, false);
+        playerIndex++; // makes it easier for others to use
+
+        FadeScreens[playerIndex].timer = BlackScreen_FadeTime_Half + BlackScreen_FadeTime_RemainBlack;
+        FadeScreens[playerIndex].BlackScreen.CrossFadeAlpha(1, BlackScreen_FadeTime_Half, false);
         return BlackScreen_FadeTime_Half + Time.deltaTime * 1; // The X frames serves as simply as a buffer, so that no instant changes will ever be visible
     }
 

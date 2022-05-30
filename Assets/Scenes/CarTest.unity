@@ -1284,8 +1284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayOrigin: {x: 0, y: 0, z: 0}
-  radius: 10
-  rayShots: 5
+  radius: 100
+  rayShots: 50
   rayHits: []
 --- !u!4 &853080322
 Transform:
@@ -1593,6 +1593,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947732175}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1059018777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7926810076823984996, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
+  m_PrefabInstance: {fileID: 4528256010280998933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1059018778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059018777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff927cd119d09a04bb382b1e37d579e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalPosition: {x: 1300, y: 1, z: 1200}
+  goalForward: 180
+  goalWidth: 10
 --- !u!1001 &1092871017
 PrefabInstance:
   m_ObjectHideFlags: 0
