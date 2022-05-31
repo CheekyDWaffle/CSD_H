@@ -214,7 +214,7 @@ public class Controller_Vehicle : MonoBehaviour
         float speed_Base = speed_Base_kmh / 6 / 6 * 10;
         float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
 
-        Vector3 newVelocity = transform.forward * (isDrifting ? forwardModifier : 1) * speed_Base * speed_Modifier;
+        Vector3 newVelocity = transform.forward * (isDrifting ? 1 : forwardModifier) * speed_Base * speed_Modifier;
 
         if (isGrounded)
         {
