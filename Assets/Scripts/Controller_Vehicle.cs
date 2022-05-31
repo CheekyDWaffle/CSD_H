@@ -179,12 +179,13 @@ public class Controller_Vehicle : MonoBehaviour
 
         if (currentInput.isController) // controller override
         {
-            int currentIndex = playerIndex;
+            int currentIndex = playerIndex + 1; // Joysticks don't actually use index, but player number.
 
             if (!Inputs[0].isController)
                 currentIndex--;
 
             KeyCode accelerationKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button0");
+
             KeyCode brakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button1");
             KeyCode handBrakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button5");
             KeyCode reverseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button2");
