@@ -9757,8 +9757,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed_Base_kmh: 120
   acceleration: 1
-  driftModifier: 1.5
   turnSpeed: 5
+  driftModifier: 1.5
+  driftTurnMultiplier: 2
   friction_Modifier: 1
   speed_Modifier: 1
   checkPointSaveFrequency: 1

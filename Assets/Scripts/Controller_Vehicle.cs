@@ -8,8 +8,8 @@ public class Controller_Vehicle : MonoBehaviour
     public float speed_Base_kmh = 6;
     private float speed_Base_ms {get { return speed_Base_kmh / 60 / 60 * 1000; } }
     public float acceleration = 5;
-
     public float turnSpeed = 1;
+    public float sidewayTractionMultiplier = 0.5f;
 
     [Header("Drift Attributes")]
     public float driftModifier = 0.5f;
@@ -214,7 +214,7 @@ public class Controller_Vehicle : MonoBehaviour
         float speed_Base = speed_Base_kmh / 6 / 6 * 10;
         float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
 
-        Vector3 newVelocity = transform.forward * forwardModifier * speed_Base * speed_Modifier * (isDrifting ? 0.1f : 1);
+        Vector3 newVelocity = transform.forward * (isDrifting ? forwardModifier : 1) * speed_Base * speed_Modifier;
 
         if (isGrounded)
         {
@@ -226,7 +226,7 @@ public class Controller_Vehicle : MonoBehaviour
 
     
             velocity -= forwardVelocity * frictionStep;
-            velocity -= sidewayVelocity * frictionStep / 10;
+            velocity -= sidewayVelocity * frictionStep * sidewayTractionMultiplier;
 
             velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
         }
