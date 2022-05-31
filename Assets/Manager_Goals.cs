@@ -82,6 +82,7 @@ public class Manager_Goals : MonoBehaviour
             for (int i = 0; i < players.Length; i++)
             {
                 players[i].GetComponent<Controller_Vehicle>().Reset();
+
             }
         }
 

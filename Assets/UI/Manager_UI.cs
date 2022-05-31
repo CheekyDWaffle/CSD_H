@@ -117,8 +117,6 @@ public class Manager_UI : MonoBehaviour
           
             bool aboveThree = i > 1;
 
-            //playerCamera.targetDisplay = i;
-
             Rect rect = playerCamera.rect;
 
             Image SubFadeScreen = BlackScreen.transform.GetChild(i).GetComponent<Image>();
@@ -148,6 +146,12 @@ public class Manager_UI : MonoBehaviour
             {
                 rect.x = 0.5f * (everyOther ? 1 : -1);
                 rect.y = 0.5f * (aboveThree ? -1 : 1);
+
+                min.x = (!everyOther ? 0 : 0.5f);
+                min.y = (!aboveThree ? 0.5f : 0);
+
+                max.x = (!everyOther ? 0.5f : 1);
+                max.y = (!aboveThree ? 1 : 0.5f);
             }
 
 
