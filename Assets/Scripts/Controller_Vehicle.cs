@@ -128,6 +128,8 @@ public class Controller_Vehicle : MonoBehaviour
         if (transform.position.y < -10)
             OnDeath();
 
+        Input.GetAxis()
+
         if (Input.GetKeyDown(KeyCode.C))
         {
             returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
