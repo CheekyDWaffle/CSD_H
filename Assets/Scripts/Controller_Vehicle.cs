@@ -8,8 +8,13 @@ public class Controller_Vehicle : MonoBehaviour
     public float speed_Base_kmh = 6;
     private float speed_Base_ms {get { return speed_Base_kmh / 60 / 60 * 1000; } }
     public float acceleration = 5;
-    public float driftModifier = 0.5f;
+
     public float turnSpeed = 1;
+
+    [Header("Drift Attributes")]
+    public float driftModifier = 0.5f;
+    public float driftTurnMultiplayer = 2;
+
 
     [Header("Temp Attributes")]
     public float friction_Modifier = 1;
@@ -188,12 +193,14 @@ public class Controller_Vehicle : MonoBehaviour
             frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
         }
 
+        bool isDrifting = frictionModifier != 1;
+
     #endregion
 
-								#region Axel
+        #region Axel
         float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / (speed_Base_ms), 0, 0.1f);
 
-        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * turnSpeed * minimumTurnModifier, transform.up) * transform.forward;
+        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * (isDrifting ? driftTurnMultiplayer * turnSpeed : turnSpeed) * minimumTurnModifier, transform.up) * transform.forward;
 
         
         transform.forward = wheelForward;
@@ -207,7 +214,7 @@ public class Controller_Vehicle : MonoBehaviour
         float speed_Base = speed_Base_kmh / 6 / 6 * 10;
         float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
 
-        Vector3 newVelocity = transform.forward * forwardModifier * speed_Base * speed_Modifier * (frictionModifier != 1 ? 0.1f : 1);
+        Vector3 newVelocity = transform.forward * forwardModifier * speed_Base * speed_Modifier * (isDrifting ? 0.1f : 1);
 
         if (isGrounded)
         {
