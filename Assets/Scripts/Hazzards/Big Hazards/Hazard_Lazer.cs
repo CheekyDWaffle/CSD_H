@@ -21,6 +21,7 @@ public class Hazard_Lazer : MonoBehaviour
     public Vector3 originalTransform;
     [HideInInspector]
     public Vector3 orignalScale;
+    
     private void Start()
     {
         originalTransform = lazerPrefab.transform.position;

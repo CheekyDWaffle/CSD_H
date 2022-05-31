@@ -22,4 +22,5 @@ public class HazardManager : MonoBehaviour
     {
 
     }
+    public enum hazardEnum { oilspill, boulders, lazer}
 }
