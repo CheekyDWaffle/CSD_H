@@ -9773,13 +9773,15 @@ MonoBehaviour:
   playerIndex: 0
   Inputs:
   - playerName: Player 1
-    isController: 0
+    playerIndex: 0
+    isController: 1
     forward: 119
     backWards: 115
     right: 100
     left: 97
     handBrake: 32
   - playerName: Player 2
+    playerIndex: 1
     isController: 1
     forward: 0
     backWards: 0
@@ -9787,13 +9789,15 @@ MonoBehaviour:
     left: 0
     handBrake: 0
   - playerName: Player 3
-    isController: 1
+    playerIndex: 2
+    isController: 0
     forward: 0
     backWards: 0
     right: 0
     left: 0
     handBrake: 0
   - playerName: Player 4
+    playerIndex: 3
     isController: 1
     forward: 0
     backWards: 0
@@ -9802,6 +9806,7 @@ MonoBehaviour:
     handBrake: 0
   currentInput:
     playerName: Player X
+    playerIndex: 0
     isController: 0
     forward: 119
     backWards: 115

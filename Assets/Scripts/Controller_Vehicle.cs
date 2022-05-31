@@ -44,6 +44,7 @@ public class Controller_Vehicle : MonoBehaviour
     public class PlayerInput
     {
         public string playerName = "Player X";
+        public int playerIndex = 0;
         public bool isController = false;
 
         public KeyCode forward = KeyCode.W;
@@ -79,6 +80,8 @@ public class Controller_Vehicle : MonoBehaviour
         RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
         distanceToGround = groundCheck.distance;
+
+
     }
 
     float goalCooldwon;
@@ -134,8 +137,6 @@ public class Controller_Vehicle : MonoBehaviour
         {
             returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
         }
-           
-
 
         if (returnToTrackTimer != -1)
         {
@@ -167,13 +168,9 @@ public class Controller_Vehicle : MonoBehaviour
         bool isGrounded = groundCheck.transform != null && groundCheck.distance <= distanceToGround;
 
         if (isGrounded)
-        {
             velocity.y = 0;
-        }
         else
-        {
             velocity += Physics.gravity * timeStep;
-        }
 
         float forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
         float sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
@@ -182,10 +179,20 @@ public class Controller_Vehicle : MonoBehaviour
 
         if (currentInput.isController) // controller override
         {
-            forwardModifier = Input.GetAxis("Vertical");
-            sidewayModifier = Input.GetAxis("Horizontal");
+            int currentIndex = playerIndex;
 
-            frictionModifier = Input.GetKey(KeyCode.Joystick1Button0) ? driftModifier : 1f;
+            if (!Inputs[0].isController)
+                currentIndex--;
+
+            KeyCode accelerationKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button0");
+            KeyCode brakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button1");
+            KeyCode handBrakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button5");
+            KeyCode reverseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button2");
+
+            forwardModifier = (Input.GetKey(accelerationKey) ? 1 : 0) + (Input.GetKey(reverseKey) ? -0.1f : 0);
+            sidewayModifier = Input.GetAxis("Horizontal_C_" + currentIndex);
+
+            frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
         }
 
         if (frictionModifier != 1)
@@ -210,9 +217,7 @@ public class Controller_Vehicle : MonoBehaviour
 
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
         #endregion
-
     }
-
 
     void Particles()
 				{
