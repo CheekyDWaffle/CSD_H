@@ -218,7 +218,16 @@ public class Controller_Vehicle : MonoBehaviour
 
         if (isGrounded)
         {
-            velocity -= velocity * frictionStep; // This simulates ever present friction from the ground.
+            Vector3 forwardVelocity = Vector3.Project(velocity, transform.forward);
+            Vector3 sidewayVelocity = velocity - forwardVelocity;
+
+           // velocity -= velocity * frictionStep; // This simulates ever present friction from the ground.
+           // velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
+
+    
+            velocity -= forwardVelocity * frictionStep;
+            velocity -= sidewayVelocity * frictionStep / 10;
+
             velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
         }
 								#endregion
