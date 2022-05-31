@@ -10,6 +10,10 @@ public class Controller_Vehicle : MonoBehaviour
     public float acceleration = 5;
     public float driftModifier = 0.5f;
     public float turnSpeed = 1;
+    public float wheelAngle = 0;
+    public float wheelTurnSpeed = 3;
+    private float wheelAngleProgress = 0;
+    public float wheelAngleMax = 45;
 
     [Header("Temp Attributes")]
     public float friction_Modifier = 1;
@@ -62,7 +66,7 @@ public class Controller_Vehicle : MonoBehaviour
 
     public bool pauseCar = false;
 
-    void Awake()
+    void Awake() // Awake is triggered before any Start(), so things that looks for stuff tagged as "player" as this object is spawned, will always find this.
     {
         tag = "Player";
         currentInput = Inputs[0];
@@ -77,11 +81,9 @@ public class Controller_Vehicle : MonoBehaviour
         startPos = transform.position;
         startRot = transform.eulerAngles;
 
-        RaycastHit groundCheck;
+        RaycastHit groundCheck; // I am checking the innitial distance to the ground.
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
         distanceToGround = groundCheck.distance;
-
-
     }
 
     float goalCooldwon;
@@ -89,29 +91,26 @@ public class Controller_Vehicle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
-        if (pauseCar)
-        {
+        if (pauseCar) // the car is being told to sit still and wait.
             return;
-        }
 
-        float timeStep = Time.deltaTime;
+        float timeStep = Time.deltaTime; // Identical to Time.deltaTime. For thise project it serves no specific purpose.
 
-        goalCooldwon -= Time.deltaTime;
+        goalCooldwon -= timeStep;
 
-        Particles();
+        Particles(); // The particle system
 
-        Move(timeStep);
+        Move(timeStep); // This is actually the part that updates velocity, and not the part that moves the car.
 
-        OnCollisin();
+        OnCollisin(); // Hit detection for the car
 
-        CheckPointSaving();
+        transform.position += velocity * timeStep; // Actually moving the car.
 
-        transform.position += velocity * timeStep;
+        CheckPointSaving(); // Checkpoints
 
-        if (goalCooldwon < 0 && goalManager.isPassingGoal(transform, velocity, isGoingReverse, lapCount, out isGoingReverse, out lapCount))
+								#region Misc. Timers, like death and respawn
+
+								if (goalCooldwon < 0 && goalManager.isPassingGoal(transform, velocity, isGoingReverse, lapCount, out isGoingReverse, out lapCount))
             goalCooldwon = 0.5f;
 
         if (deathTimer != -1)
@@ -125,18 +124,11 @@ public class Controller_Vehicle : MonoBehaviour
             }
         }
 
-
-        if (Input.GetKeyDown(KeyCode.X))
-            OnDeath();
-
         if (transform.position.y < -10)
             OnDeath();
 
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
-        }
+
 
         if (returnToTrackTimer != -1)
         {
@@ -153,17 +145,18 @@ public class Controller_Vehicle : MonoBehaviour
                 lapCount = 0;
             }
         }
-    }
 
-				public void Reset()
-				{
-        returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
-        lapCount = 0;
+        #endregion
+
+        if (Input.GetKeyDown(KeyCode.C)) // Hard Reset for debug purposes.
+            returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
+        
     }
 
 				void Move(float timeStep)
     {
-        RaycastHit groundCheck;
+								#region Ground check.
+								RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
         bool isGrounded = groundCheck.transform != null && groundCheck.distance <= distanceToGround;
 
@@ -172,6 +165,9 @@ public class Controller_Vehicle : MonoBehaviour
         else
             velocity += Physics.gravity * timeStep;
 
+        #endregion
+
+        #region Keyboard & Controller Input
         float forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
         float sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
 
@@ -196,24 +192,44 @@ public class Controller_Vehicle : MonoBehaviour
             frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
         }
 
-        if (frictionModifier != 1)
-            forwardModifier = 0;
+    #endregion
 
-        transform.localEulerAngles += new Vector3(0, sidewayModifier * timeStep * turnSpeed, 0);
+								#region Axel
 
-        sidewayModifier = 0; // Temp
+								if (sidewayModifier == 0 && velocity.magnitude > 0)
+            wheelAngleProgress -= 0.01f * velocity.magnitude * Mathf.Sign(wheelAngleProgress); // The wheel automaticly straighten itself.
 
-        float speed_Base = speed_Base_kmh / 6 / 6 * 10;
+        wheelAngleProgress += sidewayModifier * wheelTurnSpeed * Time.deltaTime;
+        wheelAngleProgress = Mathf.Clamp(wheelAngleProgress, -wheelAngleMax, wheelAngleMax);
 
-        Vector3 newVelocity = (transform.forward * forwardModifier + transform.right * sidewayModifier).normalized * speed_Base * speed_Modifier;
 
+        Vector3 wheelForward = Quaternion.AngleAxis(wheelAngleProgress,transform.up) * transform.forward;
+
+        Debug.DrawRay(transform.position, wheelForward * 4);
+
+        wheelForward = Quaternion.AngleAxis(sidewayModifier * (velocity.magnitude / speed_Base_ms) * turnSpeed, transform.up) * transform.forward;
+        transform.forward = wheelForward;
+
+								#endregion
+
+								#region Applying the actual velocity
+								// The old turn code.
+								//transform.localEulerAngles += new Vector3(0, sidewayModifier * timeStep * turnSpeed, 0);
+
+								float speed_Base = speed_Base_kmh / 6 / 6 * 10;
         float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
 
-        velocity -= velocity * frictionStep;
-        velocity += newVelocity * frictionStep;
+        Vector3 newVelocity = transform.forward * forwardModifier * speed_Base * speed_Modifier;
 
-        #region current Speed string
-        float speed = Mathf.Floor(velocity.magnitude * 100) / 100;
+        if (isGrounded)
+        {
+            velocity -= velocity * frictionStep; // This simulates ever present friction from the ground.
+            velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
+        }
+								#endregion
+
+								#region Literally just speed messurement. Doesn't affect anything.
+								float speed = Mathf.Floor(velocity.magnitude * 100) / 100;
         float speed_kmh = Mathf.Round(speed * 60 * 60 / 1000);
 
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
@@ -222,7 +238,8 @@ public class Controller_Vehicle : MonoBehaviour
 
     void Particles()
 				{
-        bool isDrifting = Input.GetKey(currentInput.handBrake) && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
+								#region Drifting based particles
+								bool isDrifting = Input.GetKey(currentInput.handBrake) && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
 
         RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
@@ -233,11 +250,11 @@ public class Controller_Vehicle : MonoBehaviour
             DriftSmoke[i].enableEmission = isDrifting && isGrounded;
 
 								}
+								#endregion
+				}
 
-    }
-
-
-    public List<CheckPoint> checkPoints;
+				#region The checkpoint system
+				public List<CheckPoint> checkPoints;
     [System.Serializable]
     public struct CheckPoint
     {
@@ -272,8 +289,10 @@ public class Controller_Vehicle : MonoBehaviour
 
     }
 
+				#endregion
 
-    public void OnDeath()
+				#region "Death" and respawn
+				public void OnDeath()
     {
         if (deathTimer != -1)
             return;
@@ -314,8 +333,14 @@ public class Controller_Vehicle : MonoBehaviour
         /// If I die within Z seconds of respawning, I respawn 5 seconds behind. Or begenning of last tile, when that is implemented.
     }
 
+    public void Reset()
+    {
+        returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
+        lapCount = 0;
+    }
 
 
+    #endregion
 
 
     void OnCollisin()
