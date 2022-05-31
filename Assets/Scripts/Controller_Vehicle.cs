@@ -207,7 +207,7 @@ public class Controller_Vehicle : MonoBehaviour
 
         Debug.DrawRay(transform.position, wheelForward * 4);
 
-        wheelForward = Quaternion.AngleAxis(sidewayModifier * (velocity.magnitude / speed_Base_ms) * turnSpeed, transform.up) * transform.forward;
+        wheelForward = Quaternion.AngleAxis(sidewayModifier * turnSpeed, transform.up) * transform.forward;
         transform.forward = wheelForward;
 
 								#endregion
@@ -220,6 +220,9 @@ public class Controller_Vehicle : MonoBehaviour
         float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
 
         Vector3 newVelocity = transform.forward * forwardModifier * speed_Base * speed_Modifier;
+
+        if (frictionModifier != 1) // This simulates a handbrake.
+            newVelocity = Vector3.zero;
 
         if (isGrounded)
         {
