@@ -200,7 +200,7 @@ public class Controller_Vehicle : MonoBehaviour
         #region Axel
         float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / (speed_Base_ms), 0, 0.1f);
 
-        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * (isDrifting ? driftTurnMultiplayer * turnSpeed : turnSpeed) * minimumTurnModifier, transform.up) * transform.forward;
+        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * (isDrifting ? driftTurnMultiplier * turnSpeed : turnSpeed) * minimumTurnModifier, transform.up) * transform.forward;
 
         
         transform.forward = wheelForward;
