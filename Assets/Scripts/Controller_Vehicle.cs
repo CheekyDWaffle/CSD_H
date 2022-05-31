@@ -168,8 +168,6 @@ public class Controller_Vehicle : MonoBehaviour
 
         if (isGrounded)
         {
-
-
             velocity.y = 0;
         }
         else
@@ -177,10 +175,18 @@ public class Controller_Vehicle : MonoBehaviour
             velocity += Physics.gravity * timeStep;
         }
 
-        int forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
-        int sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
+        float forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
+        float sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
 
         float frictionModifier = Input.GetKey(currentInput.handBrake) ? driftModifier : 1f;
+
+        if (currentInput.isController) // controller override
+        {
+            forwardModifier = Input.GetAxis("Vertical");
+            sidewayModifier = Input.GetAxis("Horizontal");
+
+            frictionModifier = Input.GetKey(KeyCode.Joystick1Button0) ? driftModifier : 1f;
+        }
 
         if (frictionModifier != 1)
             forwardModifier = 0;
@@ -212,9 +218,13 @@ public class Controller_Vehicle : MonoBehaviour
 				{
         bool isDrifting = Input.GetKey(currentInput.handBrake) && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
 
+        RaycastHit groundCheck;
+        Physics.Raycast(transform.position, Vector3.down, out groundCheck);
+        bool isGrounded = groundCheck.transform != null && groundCheck.distance <= distanceToGround;
+
         for (int i = 0; i < DriftSmoke.Length; i++)
 								{
-            DriftSmoke[i].enableEmission = isDrifting;
+            DriftSmoke[i].enableEmission = isDrifting && isGrounded;
 
 								}
 

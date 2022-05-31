@@ -943,7 +943,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2818632025962355135}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: HazardManager, Assembly-CSharp
+        m_MethodName: randomSpawn
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4702322851572228011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,6 +1613,7 @@ GameObject:
   - component: {fileID: 1023441158508083067}
   - component: {fileID: 4528256010280998936}
   - component: {fileID: 8232843830173854745}
+  - component: {fileID: 1059018778}
   m_Layer: 5
   m_Name: Canvas - Ingame
   m_TagString: Untagged
@@ -1742,6 +1755,21 @@ MonoBehaviour:
   gridSize: 100
   gridLength: 10
   trackSize: 200
+--- !u!114 &1059018778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926810076823984996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff927cd119d09a04bb382b1e37d579e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalPosition: {x: 1300, y: 1, z: 1200}
+  goalForward: 180
+  goalWidth: 10
 --- !u!1 &8088614422685572224
 GameObject:
   m_ObjectHideFlags: 0
