@@ -44,6 +44,7 @@ public class Controller_Vehicle : MonoBehaviour
     public class PlayerInput
     {
         public string playerName = "Player X";
+        public bool isController = false;
 
         public KeyCode forward = KeyCode.W;
         public KeyCode backWards = KeyCode.S;
@@ -128,7 +129,6 @@ public class Controller_Vehicle : MonoBehaviour
         if (transform.position.y < -10)
             OnDeath();
 
-        Input.GetAxis()
 
         if (Input.GetKeyDown(KeyCode.C))
         {

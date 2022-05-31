@@ -9765,29 +9765,36 @@ MonoBehaviour:
   checkPointRollback: 2
   velocity: {x: 0, y: 0, z: 0}
   currentSpeed: 
+  lapCount: 0
+  isGoingReverse: 0
   DriftSmoke:
   - {fileID: 6140148086497299741}
   - {fileID: 5051175720996314099}
+  playerIndex: 0
   Inputs:
   - playerName: Player 1
+    isController: 0
     forward: 119
     backWards: 115
     right: 100
     left: 97
     handBrake: 32
   - playerName: Player 2
+    isController: 1
     forward: 0
     backWards: 0
     right: 0
     left: 0
     handBrake: 0
   - playerName: Player 3
+    isController: 1
     forward: 0
     backWards: 0
     right: 0
     left: 0
     handBrake: 0
   - playerName: Player 4
+    isController: 1
     forward: 0
     backWards: 0
     right: 0
@@ -9795,6 +9802,7 @@ MonoBehaviour:
     handBrake: 0
   currentInput:
     playerName: Player X
+    isController: 0
     forward: 119
     backWards: 115
     right: 100
