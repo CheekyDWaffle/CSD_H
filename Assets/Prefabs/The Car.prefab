@@ -9758,7 +9758,10 @@ MonoBehaviour:
   speed_Base_kmh: 120
   acceleration: 1
   driftModifier: 1.5
-  turnSpeed: 75
+  turnSpeed: 10
+  wheelAngle: 0
+  wheelTurnSpeed: 10
+  wheelAngleMax: 45
   friction_Modifier: 1
   speed_Modifier: 1
   checkPointSaveFrequency: 1
@@ -9774,7 +9777,7 @@ MonoBehaviour:
   Inputs:
   - playerName: Player 1
     playerIndex: 0
-    isController: 1
+    isController: 0
     forward: 119
     backWards: 115
     right: 100

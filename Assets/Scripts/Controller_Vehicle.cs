@@ -207,7 +207,11 @@ public class Controller_Vehicle : MonoBehaviour
 
         Debug.DrawRay(transform.position, wheelForward * 4);
 
-        wheelForward = Quaternion.AngleAxis(sidewayModifier * turnSpeed, transform.up) * transform.forward;
+        float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / (speed_Base_ms), 0, 0.1f);
+
+        wheelForward = Quaternion.AngleAxis(sidewayModifier * turnSpeed * minimumTurnModifier, transform.up) * transform.forward;
+
+        
         transform.forward = wheelForward;
 
 								#endregion
