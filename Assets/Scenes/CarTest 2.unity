@@ -2857,7 +2857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1299.4498
+      value: 1299.4
       objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2865,7 +2865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1224.2006
+      value: 1103.1
       objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2898,18 +2898,6 @@ PrefabInstance:
     - target: {fileID: 9085944114988888870, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_Name
       value: The Car
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: turnSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: acceleration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: driftModifier
-      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
