@@ -13,7 +13,7 @@ public class Controller_Vehicle : MonoBehaviour
 
     [Header("Drift Attributes")]
     public float driftModifier = 0.5f;
-    public float driftTurnMultiplayer = 2;
+    public float driftTurnMultiplier = 2;
 
 
     [Header("Temp Attributes")]
