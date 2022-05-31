@@ -213,12 +213,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837e6f028bae7e64d924d78e93cdf73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lazerLenght: 150
+  lazerLenght: 2
   scaleFactor: 2
   warningTime: 2
+  coolDown: 5
   lazerPrefab: {fileID: 6564197325841458052}
   warningPrefab: {fileID: 6564197323954410190}
   fireLazer: 0
+  isActive: 0
   originalTransform: {x: 0, y: 0, z: 0}
   orignalScale: {x: 0, y: 0, z: 0}
 --- !u!1 &6564197325429794180

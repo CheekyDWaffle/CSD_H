@@ -807,6 +807,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6564197324373081518, guid: 3089490aa15c7f6459b140e937f21fcf, type: 3}
+      propertyPath: lazerLenght
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6564197324373081519, guid: 3089490aa15c7f6459b140e937f21fcf, type: 3}
       propertyPath: m_Name
       value: Lazer
