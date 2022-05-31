@@ -10,10 +10,6 @@ public class Controller_Vehicle : MonoBehaviour
     public float acceleration = 5;
     public float driftModifier = 0.5f;
     public float turnSpeed = 1;
-    public float wheelAngle = 0;
-    public float wheelTurnSpeed = 3;
-    private float wheelAngleProgress = 0;
-    public float wheelAngleMax = 45;
 
     [Header("Temp Attributes")]
     public float friction_Modifier = 1;
@@ -195,38 +191,23 @@ public class Controller_Vehicle : MonoBehaviour
     #endregion
 
 								#region Axel
-
-								if (sidewayModifier == 0 && velocity.magnitude > 0)
-            wheelAngleProgress -= 0.01f * velocity.magnitude * Mathf.Sign(wheelAngleProgress); // The wheel automaticly straighten itself.
-
-        wheelAngleProgress += sidewayModifier * wheelTurnSpeed * Time.deltaTime;
-        wheelAngleProgress = Mathf.Clamp(wheelAngleProgress, -wheelAngleMax, wheelAngleMax);
-
-
-        Vector3 wheelForward = Quaternion.AngleAxis(wheelAngleProgress,transform.up) * transform.forward;
-
-        Debug.DrawRay(transform.position, wheelForward * 4);
-
         float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / (speed_Base_ms), 0, 0.1f);
 
-        wheelForward = Quaternion.AngleAxis(sidewayModifier * turnSpeed * minimumTurnModifier, transform.up) * transform.forward;
+        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * turnSpeed * minimumTurnModifier, transform.up) * transform.forward;
 
         
         transform.forward = wheelForward;
 
-								#endregion
+        #endregion
 
-								#region Applying the actual velocity
-								// The old turn code.
-								//transform.localEulerAngles += new Vector3(0, sidewayModifier * timeStep * turnSpeed, 0);
+        #region Applying the actual velocity
+        // The old turn code.
+        //transform.localEulerAngles += new Vector3(0, sidewayModifier * timeStep * turnSpeed, 0);
 
-								float speed_Base = speed_Base_kmh / 6 / 6 * 10;
+        float speed_Base = speed_Base_kmh / 6 / 6 * 10;
         float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
 
-        Vector3 newVelocity = transform.forward * forwardModifier * speed_Base * speed_Modifier;
-
-        if (frictionModifier != 1) // This simulates a handbrake.
-            newVelocity = Vector3.zero;
+        Vector3 newVelocity = transform.forward * forwardModifier * speed_Base * speed_Modifier * (frictionModifier != 1 ? 0.1f : 1);
 
         if (isGrounded)
         {
