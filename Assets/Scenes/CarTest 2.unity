@@ -2899,6 +2899,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: The Car
       objectReference: {fileID: 0}
+    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: Inputs.Array.data[0].isController
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
 --- !u!1001 &1401611724

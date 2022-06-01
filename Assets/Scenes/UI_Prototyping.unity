@@ -429,7 +429,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 294152fa991133f4b851c0494d61248b, type: 3}
   - {fileID: 2800000, guid: f97462d16c3368645a77ce6eb6a169a0, type: 3}
   - {fileID: 2800000, guid: 6dd073ab41db20747b261dac8568a08d, type: 3}
-  allHazards: 000000000000000000000000
+  allHazards: 
   usableHazards: 
   currentDisplay: 0
 --- !u!114 &380738602

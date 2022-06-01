@@ -20,11 +20,10 @@ public class Menue_Builder_Navigation : MonoBehaviour
     private void Start()
     {
         currentDisplay = 0;
-        List<int> tempList = new List<int>();
-        tempList.Add(1);
-        tempList.Add(2);
-        tempList.Add(0);
-        TileChange(tempList);
+        allHazards.Add(1);
+        allHazards.Add(2);
+        allHazards.Add(0);
+        TileChange(allHazards);
 
     }
     public void Update()
@@ -39,11 +38,19 @@ public class Menue_Builder_Navigation : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            List<int> tempList = new List<int>();
-            tempList.Add(1);
-            //tempList.Add(2);
-            tempList.Add(0);
-            TileChange(tempList);
+            allHazards = new List<int>();
+            allHazards.Add(1);
+            //allHazards.Add(2);
+            allHazards.Add(0);
+            TileChange(allHazards);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            allHazards = new List<int>();
+            allHazards.Add(1);
+            allHazards.Add(2);
+            allHazards.Add(0);
+            TileChange(allHazards);
         }
     }
     public void TileChange(List<int> inputHazards)
