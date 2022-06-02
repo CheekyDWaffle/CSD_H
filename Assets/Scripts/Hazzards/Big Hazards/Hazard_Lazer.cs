@@ -44,6 +44,7 @@ public class Hazard_Lazer : MonoBehaviour
                 break;
             }
         }
+
     }
 
     //delay between shots in seconds
@@ -70,6 +71,10 @@ public class Hazard_Lazer : MonoBehaviour
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isActive = true;
+        }
         if (isActive)
         {
 
