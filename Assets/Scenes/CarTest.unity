@@ -2678,10 +2678,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 676433714}
-    - target: {fileID: 7057200950878075002, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
-      propertyPath: allHazards.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7926810076823984996, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
       propertyPath: m_Name
       value: Canvas - Ingame

@@ -9776,7 +9776,7 @@ MonoBehaviour:
   Inputs:
   - playerName: Player 1
     playerIndex: 0
-    isController: 0
+    isController: 1
     forward: 119
     backWards: 115
     right: 100

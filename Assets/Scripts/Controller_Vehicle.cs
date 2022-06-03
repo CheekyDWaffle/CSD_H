@@ -188,7 +188,7 @@ public class Controller_Vehicle : MonoBehaviour
             KeyCode reverseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button2");
 
             forwardModifier = (Input.GetKey(accelerationKey) ? 1 : 0) + (Input.GetKey(reverseKey) ? -0.1f : 0);
-            sidewayModifier = Input.GetAxis("Horizontal_C_" + currentIndex);
+            sidewayModifier = Input.GetAxis("Horizontal_C_" + (currentIndex-1));
 
             frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
         }
