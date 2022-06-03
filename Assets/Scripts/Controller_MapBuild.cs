@@ -27,6 +27,7 @@ public class Controller_MapBuild : MonoBehaviour
     public Controller_Vehicle car1;
     public Canvas hazard_UI;
     public HazardManager managerHazard;
+    private Builder_UI_Manager builderUI;
 
     [Header("Settings")]
     public float cursorSpeed = 2;
@@ -46,9 +47,13 @@ public class Controller_MapBuild : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gridCheck = new bool [gridLength, gridLength];
+        gridCheck = new bool[gridLength, gridLength];
         car1.pauseCar = isInBuildMode;
         buildPhaseTransform.gameObject.SetActive(isInBuildMode);
+
+        builderUI = GetComponentInChildren<Builder_UI_Manager>(true);
+        builderUI.usableHazards = builderUI.allHazards;
+        builderUI.DisplayChange(0); // This is required to make the UI elements show correctly from the start.
     }
 
     // Update is called once per frame
@@ -88,8 +93,8 @@ public class Controller_MapBuild : MonoBehaviour
         Player localPlayer = players[0];
 
 
-        int moveVertical = (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
-        int moveHorizontal = (Input.GetKey(KeyCode.D) ? 1 : 0) + (Input.GetKey(KeyCode.A) ? -1 : 0);
+        int moveVertical = (Input.GetKeyDown(KeyCode.W) ? 1 : 0) + (Input.GetKeyDown(KeyCode.S) ? -1 : 0);
+        int moveHorizontal = (Input.GetKeyDown(KeyCode.D) ? 1 : 0) + (Input.GetKeyDown(KeyCode.A) ? -1 : 0);
 
         localPlayer.cursorInput = new Vector2(moveHorizontal, moveVertical);
 
@@ -98,7 +103,7 @@ public class Controller_MapBuild : MonoBehaviour
         {
             Player currentPlayer = players[i];
 
-            currentPlayer.worldPosition += currentPlayer.cursorInput * cursorSpeed * timeStep;
+            currentPlayer.worldPosition += currentPlayer.cursorInput * trackSize / 2;// * cursorSpeed * timeStep;
             currentPlayer.gridPosition.x = Mathf.Round(currentPlayer.worldPosition.x / gridSize) * gridSize;
             currentPlayer.gridPosition.y = Mathf.Round(currentPlayer.worldPosition.y / gridSize) * gridSize;
 
@@ -108,33 +113,43 @@ public class Controller_MapBuild : MonoBehaviour
 
             currentPlayer.cursor.localPosition = gridUI;
 
-												#region This whole region makes no sense, what am I doing??? - Talha
-												Vector2 rawGrid = localPlayer.gridPosition / gridSize + new Vector2(gridLength, gridLength) / 2;
+            #region This whole region makes no sense, what am I doing??? - Talha
+            Vector2 rawGrid = localPlayer.gridPosition / gridSize + new Vector2(gridLength, gridLength) / 2;
 
-            Vector3 hazardVector = new Vector3(currentPlayer.gridPosition.x + gridLength/2, 0.9f, currentPlayer.gridPosition.y + gridLength / 2);
+            Vector3 hazardVector = new Vector3(currentPlayer.gridPosition.x + gridLength / 2, 0.9f, currentPlayer.gridPosition.y + gridLength / 2);
 
             managerHazard.raycastOrigin = new Vector3(rawGrid.x * trackSize + trackSize / 2, 0.9f, rawGrid.y * trackSize + trackSize / 2);
 
-												#endregion
+            #endregion
 
-												if (Input.GetKeyDown(KeyCode.Space))
+            #region Fetch Available Hazards
+
+            builderUI.usableHazards = builderUI.allHazards;
+            #endregion
+
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                SpawnTrack(localPlayer, false);
+                //SpawnTrack(localPlayer, false);
 
                 //Vector3 hazardVector = new Vector3(currentPlayer.worldPosition.x, 0, currentPlayer.worldPosition.y);
 
                 //managerHazard.raycastOrigin = hazardVector;
                 //managerHazard.randomSpawn(0);
+
+
+                builderUI.DisplayChange(1);
+
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                SpawnTrack(localPlayer, true);
+                //SpawnTrack(localPlayer, true);
+                builderUI.DisplayChange(-1);
             }
 
-            if (Input.GetKey(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                //spawnMod trenger vector 3 til selected track som sendes til hazard manager, og åpner TrackMod selection menue.
+                managerHazard.randomSpawn(builderUI.DisplayChange(0));
             }
 
 
@@ -171,7 +186,7 @@ public class Controller_MapBuild : MonoBehaviour
             }
 
 
-            newTrackPiece.position = new Vector3(rawGrid.x * trackSize + trackSize/2, 0, rawGrid.y * trackSize + trackSize / 2);
+            newTrackPiece.position = new Vector3(rawGrid.x * trackSize + trackSize / 2, 0, rawGrid.y * trackSize + trackSize / 2);
 
 
             GameObject occupiedMarker = Instantiate(localPlayer.cursor.gameObject, buildPhaseTransform);

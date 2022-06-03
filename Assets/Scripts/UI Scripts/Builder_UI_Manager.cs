@@ -27,6 +27,8 @@ public class Builder_UI_Manager : MonoBehaviour
     }
     public void Update()
     {
+        return; // Just a quickfix 
+
         //scrole up and down
         if (Input.GetKeyDown(KeyCode.W))
         {
