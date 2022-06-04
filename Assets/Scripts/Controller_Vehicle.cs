@@ -50,7 +50,6 @@ public class Controller_Vehicle : MonoBehaviour
     {
         public string playerName = "Player X";
         public int playerIndex = 0;
-        public bool isController = false;
 
         public KeyCode forward = KeyCode.W;
         public KeyCode backWards = KeyCode.S;
@@ -60,6 +59,7 @@ public class Controller_Vehicle : MonoBehaviour
         public KeyCode handBrake = KeyCode.Space;
     }
 
+    public bool hostIsUsingController;
     public PlayerInput[] Inputs;
 
     [HideInInspector]
@@ -169,27 +169,29 @@ public class Controller_Vehicle : MonoBehaviour
         #endregion
 
         #region Keyboard & Controller Input
+
         float forwardModifier = 0;
         float sidewayModifier = 0;
         float frictionModifier = 0;
 
-        if (!currentInput.isController) // controller override
+        if (playerIndex == 0 && !hostIsUsingController) // if I am the host, and the host isn't using a controller.
         {
             forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
             sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
 
             frictionModifier = Input.GetKey(currentInput.handBrake) ? driftModifier : 1f;
         }
-        else if (currentInput.isController) // controller override
+        else // if I am not the host, or I am the host but using a controller
         {
-            int currentIndex = playerIndex + 1; // Joysticks don't actually use index, but player number.
+            int controllerIndex = playerIndex + 1; // Joysticks don't actually use index, but player number.
 
-            if (!Inputs[0].isController)
-                currentIndex--;
+            if (!hostIsUsingController)
+                controllerIndex--;
 
+            print("Player '" + playerIndex + "' is using Controller '" + controllerIndex + "'.");
 
-            string controllerName = "Joystick" + currentIndex + "Button";
-            string leftStickName = "Horizontal_C_" + currentIndex;
+            string controllerName = "Joystick" + controllerIndex + "Button";
+            string leftStickName = "Horizontal_C_" + controllerIndex;
 
             leftStickName = "Horizontal_C_Universal"; // This swapps the joystick to the universal one. If this doesn't work, then I can not understand.
 
