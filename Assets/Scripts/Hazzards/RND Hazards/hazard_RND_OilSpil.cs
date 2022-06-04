@@ -7,7 +7,7 @@ public class hazard_RND_OilSpil : MonoBehaviour
     public float tractionLoss, stearingLoss;
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + "entered");
+        
         if (other.gameObject.CompareTag("Player"))
         {
             other.GetComponent<Controller_Vehicle>().friction_Modifier -= tractionLoss;

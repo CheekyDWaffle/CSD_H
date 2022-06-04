@@ -7,13 +7,13 @@ public class RndHazardLocation : MonoBehaviour
     public Vector3 rayOrigin;
 
     public float radius;
-    public int rayShots;
     public List<Vector3> rayHits;
 
     int loopBreak = 0;
 
-    public List<Vector3> HazardLocations(Vector3 rayOrigin)
+    public List<Vector3> HazardLocations(Vector3 rayOrigin, int rayShots)
     {
+
         loopBreak = 1000;
         rayHits = new List<Vector3>();
         while (rayHits.Count < rayShots)
@@ -31,6 +31,7 @@ public class RndHazardLocation : MonoBehaviour
             if (loopBreak <=0)
             {
                 print("failed loop");
+                print(rayOrigin);
                 break;
             }
 

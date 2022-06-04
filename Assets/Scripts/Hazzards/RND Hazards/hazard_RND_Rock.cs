@@ -6,7 +6,7 @@ public class hazard_RND_Rock : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + "entered");
+
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("k");

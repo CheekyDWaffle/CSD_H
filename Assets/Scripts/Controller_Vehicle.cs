@@ -6,7 +6,7 @@ public class Controller_Vehicle : MonoBehaviour
 {
     [Header("Attributes")]
     public float speed_Base_kmh = 6;
-    private float speed_Base_ms {get { return speed_Base_kmh / 60 / 60 * 1000; } }
+    private float speed_Base_ms { get { return speed_Base_kmh / 60 / 60 * 1000; } }
     public float acceleration = 5;
     public float turnSpeed = 1;
     public float sidewayTractionMultiplier = 0.5f;
@@ -41,7 +41,7 @@ public class Controller_Vehicle : MonoBehaviour
     Vector3 startRot;
     float distanceToGround;
     Manager_Goals goalManager;
-    
+
     [HideInInspector]
     public int playerIndex = 0;
 
@@ -109,9 +109,9 @@ public class Controller_Vehicle : MonoBehaviour
 
         CheckPointSaving(); // Checkpoints
 
-								#region Misc. Timers, like death and respawn
+        #region Misc. Timers, like death and respawn
 
-								if (goalCooldwon < 0 && goalManager.isPassingGoal(transform, velocity, isGoingReverse, lapCount, out isGoingReverse, out lapCount))
+        if (goalCooldwon < 0 && goalManager.isPassingGoal(transform, velocity, isGoingReverse, lapCount, out isGoingReverse, out lapCount))
             goalCooldwon = 0.5f;
 
         if (deathTimer != -1)
@@ -135,8 +135,8 @@ public class Controller_Vehicle : MonoBehaviour
         {
             returnToTrackTimer -= timeStep;
 
-            if(returnToTrackTimer < 0)
-												{
+            if (returnToTrackTimer < 0)
+            {
                 returnToTrackTimer = -1;
 
                 transform.position = startPos;
@@ -151,13 +151,13 @@ public class Controller_Vehicle : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C)) // Hard Reset for debug purposes.
             returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
-        
+
     }
 
-				void Move(float timeStep)
+    void Move(float timeStep)
     {
-								#region Ground check.
-								RaycastHit groundCheck;
+        #region Ground check.
+        RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
         bool isGrounded = groundCheck.transform != null && groundCheck.distance <= distanceToGround;
 
@@ -203,21 +203,21 @@ public class Controller_Vehicle : MonoBehaviour
             KeyCode reverseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+2);
 
             forwardModifier = (Input.GetKey(accelerationKey) ? 1 : 0) + (Input.GetKey(reverseKey) ? -0.1f : 0);
-            sidewayModifier = Input.GetAxis(leftStickName);
+            sidewayModifier = Input.GetAxis("Horizontal_C_" + (currentIndex - 1));
 
             frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
         }
 
         bool isDrifting = frictionModifier != 1;
 
-    #endregion
+        #endregion
 
         #region Axel
         float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / (speed_Base_ms), 0, 0.1f);
 
         Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * (isDrifting ? driftTurnMultiplier * turnSpeed : turnSpeed) * minimumTurnModifier, transform.up) * transform.forward;
 
-        
+
         transform.forward = wheelForward;
 
         #endregion
@@ -236,19 +236,19 @@ public class Controller_Vehicle : MonoBehaviour
             Vector3 forwardVelocity = Vector3.Project(velocity, transform.forward);
             Vector3 sidewayVelocity = velocity - forwardVelocity;
 
-           // velocity -= velocity * frictionStep; // This simulates ever present friction from the ground.
-           // velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
+            // velocity -= velocity * frictionStep; // This simulates ever present friction from the ground.
+            // velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
 
-    
+
             velocity -= forwardVelocity * frictionStep;
             velocity -= sidewayVelocity * frictionStep * sidewayTractionMultiplier;
 
             velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
         }
-								#endregion
+        #endregion
 
-								#region Literally just speed messurement. Doesn't affect anything.
-								float speed = Mathf.Floor(velocity.magnitude * 100) / 100;
+        #region Literally just speed messurement. Doesn't affect anything.
+        float speed = Mathf.Floor(velocity.magnitude * 100) / 100;
         float speed_kmh = Mathf.Round(speed * 60 * 60 / 1000);
 
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
@@ -256,24 +256,24 @@ public class Controller_Vehicle : MonoBehaviour
     }
 
     void Particles()
-				{
-								#region Drifting based particles
-								bool isDrifting = Input.GetKey(currentInput.handBrake) && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
+    {
+        #region Drifting based particles
+        bool isDrifting = Input.GetKey(currentInput.handBrake) && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
 
         RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
         bool isGrounded = groundCheck.transform != null && groundCheck.distance <= distanceToGround;
 
         for (int i = 0; i < DriftSmoke.Length; i++)
-								{
+        {
             DriftSmoke[i].enableEmission = isDrifting && isGrounded;
 
-								}
-								#endregion
-				}
+        }
+        #endregion
+    }
 
-				#region The checkpoint system
-				public List<CheckPoint> checkPoints;
+    #region The checkpoint system
+    public List<CheckPoint> checkPoints;
     [System.Serializable]
     public struct CheckPoint
     {
@@ -308,10 +308,10 @@ public class Controller_Vehicle : MonoBehaviour
 
     }
 
-				#endregion
+    #endregion
 
-				#region "Death" and respawn
-				public void OnDeath()
+    #region "Death" and respawn
+    public void OnDeath()
     {
         if (deathTimer != -1)
             return;

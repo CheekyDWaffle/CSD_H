@@ -25,7 +25,6 @@ public class Controller_MapBuild : MonoBehaviour
     public GameObject prefab_track_I;
     public GameObject prefab_track_L;
     public Controller_Vehicle car1;
-    public Canvas hazard_UI;
     public HazardManager managerHazard;
     private Builder_UI_Manager builderUI;
 
@@ -51,9 +50,6 @@ public class Controller_MapBuild : MonoBehaviour
         car1.pauseCar = isInBuildMode;
         buildPhaseTransform.gameObject.SetActive(isInBuildMode);
 
-        builderUI = GetComponentInChildren<Builder_UI_Manager>(true);
-        builderUI.usableHazards = builderUI.allHazards;
-        builderUI.DisplayChange(0); // This is required to make the UI elements show correctly from the start.
     }
 
     // Update is called once per frame
@@ -118,13 +114,13 @@ public class Controller_MapBuild : MonoBehaviour
 
             Vector3 hazardVector = new Vector3(currentPlayer.gridPosition.x + gridLength / 2, 0.9f, currentPlayer.gridPosition.y + gridLength / 2);
 
-            managerHazard.raycastOrigin = new Vector3(rawGrid.x * trackSize + trackSize / 2, 0.9f, rawGrid.y * trackSize + trackSize / 2);
+            managerHazard.raycastOrigin = new Vector3(rawGrid.x * trackSize + trackSize / 2, 10f, rawGrid.y * trackSize + trackSize / 2);
 
             #endregion
 
             #region Fetch Available Hazards
 
-            builderUI.usableHazards = builderUI.allHazards;
+            //builderUI.usableHazards = builderUI.allHazards;
             #endregion
 
             if (Input.GetKeyDown(KeyCode.Q))
@@ -149,7 +145,7 @@ public class Controller_MapBuild : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                managerHazard.randomSpawn(builderUI.DisplayChange(0));
+                managerHazard.SpawnHazard();
             }
 
 
