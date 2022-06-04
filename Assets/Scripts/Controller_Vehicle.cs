@@ -169,26 +169,39 @@ public class Controller_Vehicle : MonoBehaviour
         #endregion
 
         #region Keyboard & Controller Input
-        float forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
-        float sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
+        float forwardModifier = 0;
+        float sidewayModifier = 0;
+        float frictionModifier = 0;
 
-        float frictionModifier = Input.GetKey(currentInput.handBrake) ? driftModifier : 1f;
+        if (!currentInput.isController) // controller override
+        {
+            forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
+            sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
 
-        if (currentInput.isController) // controller override
+            frictionModifier = Input.GetKey(currentInput.handBrake) ? driftModifier : 1f;
+        }
+        else if (currentInput.isController) // controller override
         {
             int currentIndex = playerIndex + 1; // Joysticks don't actually use index, but player number.
 
             if (!Inputs[0].isController)
                 currentIndex--;
 
-            KeyCode accelerationKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button0");
 
-            KeyCode brakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button1");
-            KeyCode handBrakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button5");
-            KeyCode reverseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick" + currentIndex + "Button2");
+            string controllerName = "Joystick" + currentIndex + "Button";
+            string leftStickName = "Horizontal_C_" + currentIndex;
+
+            leftStickName = "Horizontal_C_Universal"; // This swapps the joystick to the universal one. If this doesn't work, then I can not understand.
+
+
+            KeyCode accelerationKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+0);
+
+            KeyCode brakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+1);
+            KeyCode handBrakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+5);
+            KeyCode reverseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+2);
 
             forwardModifier = (Input.GetKey(accelerationKey) ? 1 : 0) + (Input.GetKey(reverseKey) ? -0.1f : 0);
-            sidewayModifier = Input.GetAxis("Horizontal_C_" + (currentIndex-1));
+            sidewayModifier = Input.GetAxis(leftStickName);
 
             frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
         }
