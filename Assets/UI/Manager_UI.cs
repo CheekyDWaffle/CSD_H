@@ -15,6 +15,9 @@ public class Manager_UI : MonoBehaviour
     [Header("Assign")]
     public Image BlackScreen;
     private FadeScreen[] FadeScreens;
+    public GameObject carPrefab;
+
+    private float spawnNewPlayerTimer = -1f;
 
     public struct FadeScreen
 				{
@@ -50,6 +53,12 @@ public class Manager_UI : MonoBehaviour
     void Update()
     {
 
+        SpawnNewPlayer(true);
+
+
+        if (Input.GetKeyDown(KeyCode.X)) // Hard Reset for debug purposes.
+            SpawnNewPlayer();
+
         if (false && BlackScreen_FadeTime_Timer != -1) // All of the timer shenanigans
         {
             BlackScreen_FadeTime_Timer -= Time.deltaTime;
@@ -78,6 +87,36 @@ public class Manager_UI : MonoBehaviour
         }
     }
 
+    void SpawnNewPlayer(bool inUpdate = false)
+    {
+        if(!inUpdate)
+								{
+            spawnNewPlayerTimer = Fade_Black();
+            return;
+								}
+
+
+        if (spawnNewPlayerTimer != -1)
+        {
+            spawnNewPlayerTimer -= Time.deltaTime;
+
+            if (spawnNewPlayerTimer < 0)
+            {
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                Controller_Vehicle originalPlayer = players[0].GetComponent<Controller_Vehicle>();
+                float playerWidth = originalPlayer.GetComponent<BoxCollider>().size.x;
+
+                Controller_Vehicle newVehicle = Instantiate(carPrefab).GetComponent<Controller_Vehicle>();
+                newVehicle.startPos = originalPlayer.startPos + (originalPlayer.startRight * playerWidth * 1.1f * players.Length);
+                newVehicle.startRight = originalPlayer.startRight;
+                newVehicle.startRot = originalPlayer.startRot;
+                newVehicle.ReturnToTrack();
+
+                spawnNewPlayerTimer = -1;
+            }
+        }
+    }
+
     public void AdjustScreen()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -92,16 +131,7 @@ public class Manager_UI : MonoBehaviour
             Transform currentPlayer = players[i].transform;
 
             if (playerCount > 1) // Multiplayer Options Only:
-            {
                 currentPlayer.GetComponentInChildren<MeshRenderer>().material.color = colors[i];
-
-                float playerWidth = currentPlayer.GetComponent<BoxCollider>().size.x;
-
-                if (Vector3.Distance(currentPlayer.position, players[0].transform.position) < playerWidth)
-                {
-                    currentPlayer.position += currentPlayer.right * playerWidth * 1.1f * i;
-                }
-            }
 
 
             Controller_Vehicle playerController = currentPlayer.GetComponent<Controller_Vehicle>();
@@ -111,10 +141,6 @@ public class Manager_UI : MonoBehaviour
 
             Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
 
-
-            
-
-          
             bool aboveThree = i > 1;
 
             Rect rect = playerCamera.rect;

@@ -1725,6 +1725,7 @@ MonoBehaviour:
   - {r: 0.08037208, g: 0.5660378, b: 0, a: 0}
   - {r: 1, g: 0, b: 0.70319223, a: 0}
   BlackScreen: {fileID: 644217263}
+  carPrefab: {fileID: 0}
 --- !u!114 &8232843830173854745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1750,7 +1751,6 @@ MonoBehaviour:
   prefab_track_I: {fileID: 7657449326698190516, guid: 58a61d4f05495654ead58dd1c93be51c, type: 3}
   prefab_track_L: {fileID: 212913297879500620, guid: f86f3875770f5f040b5af9f9d39679a5, type: 3}
   car1: {fileID: 0}
-  hazard_UI: {fileID: 0}
   managerHazard: {fileID: 0}
   cursorSpeed: 200
   gridSize: 100

@@ -37,8 +37,8 @@ public class Controller_Vehicle : MonoBehaviour
     [Header("Particles")]
     public ParticleSystem[] DriftSmoke;
 
-    Vector3 startPos;
-    Vector3 startRot;
+    [HideInInspector]
+    public Vector3 startPos, startRot, startRight;
     float distanceToGround;
     Manager_Goals goalManager;
 
@@ -71,6 +71,10 @@ public class Controller_Vehicle : MonoBehaviour
     {
         tag = "Player";
         currentInput = Inputs[0];
+
+        startPos = transform.position;
+        startRot = transform.eulerAngles;
+        startRight = transform.right;
     }
 
     void Start()
@@ -79,8 +83,7 @@ public class Controller_Vehicle : MonoBehaviour
 
         goalManager = Manager_UI.Get().GetComponent<Manager_Goals>();
 
-        startPos = transform.position;
-        startRot = transform.eulerAngles;
+
 
         RaycastHit groundCheck; // I am checking the innitial distance to the ground.
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
@@ -136,15 +139,7 @@ public class Controller_Vehicle : MonoBehaviour
             returnToTrackTimer -= timeStep;
 
             if (returnToTrackTimer < 0)
-            {
-                returnToTrackTimer = -1;
-
-                transform.position = startPos;
-                transform.eulerAngles = startRot;
-                velocity = Vector3.zero;
-
-                lapCount = 0;
-            }
+                ReturnToTrack();
         }
 
         #endregion
@@ -270,6 +265,15 @@ public class Controller_Vehicle : MonoBehaviour
 
         }
         #endregion
+    }
+
+    public void ReturnToTrack()
+    {
+        returnToTrackTimer = -1;
+
+        transform.position = startPos;
+        transform.eulerAngles = startRot;
+        velocity = Vector3.zero;
     }
 
     #region The checkpoint system
