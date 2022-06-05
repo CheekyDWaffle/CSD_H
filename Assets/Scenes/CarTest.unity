@@ -651,12 +651,17 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
   m_PrefabInstance: {fileID: 1395700197}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 367212288}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c044db92be51184abd6ce2c79e43e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &367212288 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9085944114988888870, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+  m_PrefabInstance: {fileID: 1395700197}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &379539658
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -989,7 +994,12 @@ MonoBehaviour:
   trackModPrefab:
   - {fileID: 5493398097889321115, guid: eeb0d14ac1c763344bcab1e1cd7fc22d, type: 3}
   - {fileID: 3432573054569822594, guid: b855fd25163d49447a88ea4ccec99324, type: 3}
+  hazardSpawnAmunt: 0
+  builderUI: {fileID: 0}
   raycastOrigin: {x: 100, y: 0, z: 100}
+  availableHazards: 
+  selectedTrack: {fileID: 0}
+  testCube: {fileID: 0}
 --- !u!4 &676433715
 Transform:
   m_ObjectHideFlags: 0
@@ -1285,7 +1295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayOrigin: {x: 0, y: 0, z: 0}
   radius: 100
-  rayShots: 50
   rayHits: []
 --- !u!4 &853080322
 Transform:
@@ -2678,6 +2687,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4528256010280998936, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
+      propertyPath: carPrefab
+      value: 
+      objectReference: {fileID: 367212288}
     - target: {fileID: 4551868001198403179, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
