@@ -98,6 +98,17 @@ public class Controller_Vehicle : MonoBehaviour
         if (pauseCar) // the car is being told to sit still and wait.
             return;
 
+
+        if (Input.GetAxis("Horizontal_C_Universal") != 0)
+            Debug.Log("If You are seeing this, the left stick is working for all joysticks.");
+
+        if (Input.GetAxis("Horizontal_C_1") != 0)
+            Debug.Log("If You are seeing this, the left stick is working for controller 1.");
+
+        if (Input.GetAxis("Horizontal_C_2") != 0)
+            Debug.Log("If You are seeing this, the left stick is working for controller 2.");
+
+
         float timeStep = Time.deltaTime; // Identical to Time.deltaTime. For thise project it serves no specific purpose.
 
         goalCooldwon -= timeStep;
@@ -199,7 +210,6 @@ public class Controller_Vehicle : MonoBehaviour
 
             forwardModifier = (Input.GetKey(accelerationKey) ? 1 : 0) + (Input.GetKey(reverseKey) ? -0.1f : 0);
             sidewayModifier = Input.GetAxis(leftStickName);
-
             frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
         }
 
