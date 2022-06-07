@@ -61,6 +61,15 @@ public class Controller_MapBuild : MonoBehaviour
     {
         #region Buildmode Transition
         {
+
+            GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+            for (int i = 0; i < playerObjects.Length; i++)
+            {
+                Controller_Vehicle currentCar = playerObjects[i].GetComponent<Controller_Vehicle>();
+
+                currentCar.GetComponentInChildren<Camera>(true).gameObject.SetActive(!isInBuildMode);
+            }
+
             if (buildModeChangeTimer != -1)
             {
                 buildModeChangeTimer -= Time.deltaTime;
@@ -88,6 +97,7 @@ public class Controller_MapBuild : MonoBehaviour
         }
         #endregion
 
+       
 
         float timeStep = Time.deltaTime;
 

@@ -1851,9 +1851,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalLapCount: 3
-  goalPosition: {x: 1298.54, y: 1, z: 1200}
+  goalPosition: {x: 1298, y: 1, z: 1098}
   goalForward: 180
-  goalWidth: 20
+  goalWidth: 22
 --- !u!114 &1778950433
 MonoBehaviour:
   m_ObjectHideFlags: 0
