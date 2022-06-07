@@ -28,6 +28,7 @@ public class Controller_Vehicle : MonoBehaviour
     public float checkPointRollback = 2f;
     private float deathTimer = -1;
     private float returnToTrackTimer = -1;
+    public float axelPosition = 1;
 
     [Header("Read-Only (That means don't touch)")]
     public Vector3 velocity;
@@ -172,13 +173,16 @@ public class Controller_Vehicle : MonoBehaviour
 
         float forwardModifier = NewInput.isAccelerating ? 1f : 0f + (isReversing ? -reverseSpeedPercentage : 0); // This is based off of my intention to reverse
         float sidewayModifier = NewInput.turning * (speed < 0 ? -1 : 1); // This is based off of literally & physically reversing.
-								#endregion
+        #endregion
 
-								#region Turning
+        #region Turning
+
+        Debug.DrawRay(transform.position + transform.forward * axelPosition, transform.up, Color.red);
 
         float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / mimimumSpeedBeforeReversing_ms, 0, 1);
-        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * (NewInput.isDrifting ? handbrakeTurnMultiplier : 1) * turnSpeed * turnSpeed_Modifier * minimumTurnModifier, transform.up) * transform.forward;
-        transform.forward = wheelForward;
+        float angle = sidewayModifier * (NewInput.isDrifting ? handbrakeTurnMultiplier : 1) * turnSpeed * turnSpeed_Modifier * minimumTurnModifier;
+
+        transform.RotateAround(transform.position + transform.forward * axelPosition, transform.up, angle);
 
         #endregion
 
@@ -201,7 +205,6 @@ public class Controller_Vehicle : MonoBehaviour
             velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
         }
         #endregion
-
     }
 
     void Particles()

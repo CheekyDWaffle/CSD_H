@@ -9757,19 +9757,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed_Base_kmh: 120
-  reverseSpeedPercentage: 0.1
+  reverseSpeedPercentage: 0.2
   brakeStrength: 2
   handbrakeStrength: 5
+  handbrakeTurnMultiplier: 2
   roadGrip: 0.9
   turnSpeed: 0.2
-  sidewayTractionMultiplier: 2
+  roadGripSidewaysModifier: 2
   mimimumSpeedBeforeReversing_ms: 5
-  driftModifier: 1.5
-  driftTurnMultiplier: 2
-  friction_Modifier: 1
-  speed_Modifier: 1
+  grip_Multiplier: 1
+  speed_Multiplier: 1
+  turnSpeed_Modifier: 1
   checkPointSaveFrequency: 1
   checkPointRollback: 2
+  axelPosition: 1.0215
   velocity: {x: 0, y: 0, z: 0}
   currentSpeed: 
   lapCount: 0
