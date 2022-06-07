@@ -9636,7 +9636,7 @@ GameObject:
   - component: {fileID: 9085944114130018133}
   - component: {fileID: 9085944114130018132}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9719,6 +9719,7 @@ GameObject:
   - component: {fileID: 9085944114988888868}
   - component: {fileID: 9085944114988888871}
   - component: {fileID: 1212367852590661430}
+  - component: {fileID: 7463626730455825254}
   m_Layer: 0
   m_Name: The Car
   m_TagString: Untagged
@@ -9756,9 +9757,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed_Base_kmh: 120
-  acceleration: 1
-  turnSpeed: 1
+  reverseSpeedPercentage: 0.1
+  brakeStrength: 2
+  handbrakeStrength: 5
+  roadGrip: 0.9
+  turnSpeed: 0.2
   sidewayTractionMultiplier: 2
+  mimimumSpeedBeforeReversing_ms: 5
   driftModifier: 1.5
   driftTurnMultiplier: 2
   friction_Modifier: 1
@@ -9772,51 +9777,30 @@ MonoBehaviour:
   DriftSmoke:
   - {fileID: 6140148086497299741}
   - {fileID: 5051175720996314099}
+  startPos: {x: 0, y: 0, z: 0}
+  startRot: {x: 0, y: 0, z: 0}
+  startRight: {x: 0, y: 0, z: 0}
   playerIndex: 0
+  hostIsUsingController: 0
   Inputs:
   - playerName: Player 1
     playerIndex: 0
-    isController: 1
-    forward: 119
-    backWards: 115
-    right: 100
-    left: 97
-    handBrake: 32
   - playerName: Player 2
     playerIndex: 1
-    isController: 1
-    forward: 0
-    backWards: 0
-    right: 0
-    left: 0
-    handBrake: 0
   - playerName: Player 3
     playerIndex: 2
-    isController: 0
-    forward: 0
-    backWards: 0
-    right: 0
-    left: 0
-    handBrake: 0
   - playerName: Player 4
     playerIndex: 3
-    isController: 1
-    forward: 0
-    backWards: 0
-    right: 0
-    left: 0
-    handBrake: 0
   currentInput:
     playerName: Player X
     playerIndex: 0
-    isController: 0
-    forward: 119
-    backWards: 115
-    right: 100
-    left: 97
-    handBrake: 32
   pauseCar: 0
   checkPoints: []
+  NewInput:
+    isAccelerating: 0
+    turning: 0
+    isDrifting: 0
+    onBrakeReverse: 0
 --- !u!65 &1212367852590661430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9830,6 +9814,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.75, y: 1, z: 3.9}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &7463626730455825254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9085944114988888870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: f88a274124dedea4181200d44e36a59f, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Vehicle
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 9085944114130018133}
 --- !u!1001 &1918439557924392542
 PrefabInstance:
   m_ObjectHideFlags: 0

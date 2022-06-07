@@ -1,24 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class Controller_Vehicle : MonoBehaviour
 {
     [Header("Attributes")]
     public float speed_Base_kmh = 6;
+    public float reverseSpeedPercentage = 0.1f;
     private float speed_Base_ms { get { return speed_Base_kmh / 60 / 60 * 1000; } }
-    public float acceleration = 5;
+    public float brakeStrength = 5;
+    public float handbrakeStrength = 5;
+    public float handbrakeTurnMultiplier = 2;
+    public float roadGrip = 5;
     public float turnSpeed = 1;
-    public float sidewayTractionMultiplier = 0.5f;
+    public float roadGripSidewaysModifier = 0.5f;
+    public float mimimumSpeedBeforeReversing_ms = 5;
 
-    [Header("Drift Attributes")]
-    public float driftModifier = 0.5f;
-    public float driftTurnMultiplier = 2;
-
-
-    [Header("Temp Attributes")]
-    public float friction_Modifier = 1;
-    public float speed_Modifier = 1;
+    [Header("Temp Attributes (Hazards and such)")]
+    public float grip_Multiplier = 1;
+    public float speed_Multiplier = 1;
+    public float turnSpeed_Modifier = 1;
 
 
     [Header("Settings")]
@@ -50,13 +51,6 @@ public class Controller_Vehicle : MonoBehaviour
     {
         public string playerName = "Player X";
         public int playerIndex = 0;
-
-        public KeyCode forward = KeyCode.W;
-        public KeyCode backWards = KeyCode.S;
-        public KeyCode right = KeyCode.D;
-        public KeyCode left = KeyCode.A;
-
-        public KeyCode handBrake = KeyCode.Space;
     }
 
     public bool hostIsUsingController;
@@ -97,16 +91,6 @@ public class Controller_Vehicle : MonoBehaviour
     {
         if (pauseCar) // the car is being told to sit still and wait.
             return;
-
-
-        if (Input.GetAxis("Horizontal_C_Universal") != 0)
-            Debug.Log("If You are seeing this, the left stick is working for all joysticks.");
-
-        if (Input.GetAxis("Horizontal_C_1") != 0)
-            Debug.Log("If You are seeing this, the left stick is working for controller 1.");
-
-        if (Input.GetAxis("Horizontal_C_2") != 0)
-            Debug.Log("If You are seeing this, the left stick is working for controller 2.");
 
 
         float timeStep = Time.deltaTime; // Identical to Time.deltaTime. For thise project it serves no specific purpose.
@@ -155,13 +139,20 @@ public class Controller_Vehicle : MonoBehaviour
 
         #endregion
 
-        if (Input.GetKeyDown(KeyCode.C)) // Hard Reset for debug purposes.
-            returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
+        //if (Input.GetKeyDown(KeyCode.C)) // Hard Reset for debug purposes.
+        //    returnToTrackTimer = Manager_UI.Get().Fade_Black(playerIndex);
 
     }
 
     void Move(float timeStep)
     {
+        #region Literally just speed messurement. Doesn't affect anything.
+        float speed = Mathf.Floor(velocity.magnitude * 100) / 100 * Mathf.Sign(Vector3.Dot(velocity, transform.forward));
+        float speed_kmh = Mathf.Round(speed * 60 * 60 / 1000);
+
+        currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
+        #endregion
+
         #region Ground check.
         RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
@@ -176,65 +167,24 @@ public class Controller_Vehicle : MonoBehaviour
 
         #region Keyboard & Controller Input
 
-        float forwardModifier = 0;
-        float sidewayModifier = 0;
-        float frictionModifier = 0;
+        bool isReversing = !NewInput.isAccelerating && NewInput.onBrakeReverse && speed < mimimumSpeedBeforeReversing_ms;
+        bool isBraking = NewInput.onBrakeReverse && !isReversing;
 
-        if (playerIndex == 0 && !hostIsUsingController) // if I am the host, and the host isn't using a controller.
-        {
-            forwardModifier = (Input.GetKey(currentInput.forward) ? 1 : 0) + (Input.GetKey(currentInput.backWards) ? -1 : 0);
-            sidewayModifier = (Input.GetKey(currentInput.right) ? 1 : 0) + (Input.GetKey(currentInput.left) ? -1 : 0);
+        float forwardModifier = NewInput.isAccelerating ? 1f : 0f + (isReversing ? -reverseSpeedPercentage : 0); // This is based off of my intention to reverse
+        float sidewayModifier = NewInput.turning * (speed < 0 ? -1 : 1); // This is based off of literally & physically reversing.
+								#endregion
 
-            frictionModifier = Input.GetKey(currentInput.handBrake) ? driftModifier : 1f;
-        }
-        else // if I am not the host, or I am the host but using a controller
-        {
-            int controllerIndex = playerIndex + 1; // Joysticks don't actually use index, but player number.
+								#region Turning
 
-            if (!hostIsUsingController)
-                controllerIndex--;
-
-            print("Player '" + playerIndex + "' is using Controller '" + controllerIndex + "'.");
-
-            string controllerName = "Joystick" + controllerIndex + "Button";
-            string leftStickName = "Horizontal_C_" + controllerIndex;
-
-            leftStickName = "Horizontal_C_Universal"; // This swapps the joystick to the universal one. If this doesn't work, then I can not understand.
-
-
-            KeyCode accelerationKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+0);
-
-            KeyCode brakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+1);
-            KeyCode handBrakeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+5);
-            KeyCode reverseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), controllerName+2);
-
-            forwardModifier = (Input.GetKey(accelerationKey) ? 1 : 0) + (Input.GetKey(reverseKey) ? -0.1f : 0);
-            sidewayModifier = Input.GetAxis(leftStickName);
-            frictionModifier = Input.GetKey(handBrakeKey) ? driftModifier : 1f;
-        }
-
-        bool isDrifting = frictionModifier != 1;
-
-        #endregion
-
-        #region Axel
-        float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / (speed_Base_ms), 0, 0.1f);
-
-        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * (isDrifting ? driftTurnMultiplier * turnSpeed : turnSpeed) * minimumTurnModifier, transform.up) * transform.forward;
-
-
+        float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / mimimumSpeedBeforeReversing_ms, 0, 1);
+        Vector3 wheelForward = Quaternion.AngleAxis(sidewayModifier * (NewInput.isDrifting ? handbrakeTurnMultiplier : 1) * turnSpeed * turnSpeed_Modifier * minimumTurnModifier, transform.up) * transform.forward;
         transform.forward = wheelForward;
 
         #endregion
 
         #region Applying the actual velocity
-        // The old turn code.
-        //transform.localEulerAngles += new Vector3(0, sidewayModifier * timeStep * turnSpeed, 0);
-
-        float speed_Base = speed_Base_kmh / 6 / 6 * 10;
-        float frictionStep = acceleration * timeStep * frictionModifier * friction_Modifier;
-
-        Vector3 newVelocity = transform.forward * (isDrifting ? 1 : forwardModifier) * speed_Base * speed_Modifier;
+        float frictionStep = roadGrip * timeStep * grip_Multiplier;
+        Vector3 newVelocity = transform.forward * forwardModifier * speed_Base_ms * speed_Multiplier;
 
         if (isGrounded)
         {
@@ -245,25 +195,19 @@ public class Controller_Vehicle : MonoBehaviour
             // velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
 
 
-            velocity -= forwardVelocity * frictionStep;
-            velocity -= sidewayVelocity * frictionStep * sidewayTractionMultiplier;
+            velocity -= forwardVelocity * frictionStep * (isBraking ? brakeStrength : 1) * (NewInput.isDrifting ? handbrakeStrength : 1);
+            velocity -= sidewayVelocity * frictionStep * roadGripSidewaysModifier;
 
             velocity += newVelocity * frictionStep; // This is acceleration, but also friction. There is no specific code to cap the velocity, because it reaches "terminal velocity" instead. Same result.
         }
         #endregion
 
-        #region Literally just speed messurement. Doesn't affect anything.
-        float speed = Mathf.Floor(velocity.magnitude * 100) / 100;
-        float speed_kmh = Mathf.Round(speed * 60 * 60 / 1000);
-
-        currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
-        #endregion
     }
 
     void Particles()
     {
         #region Drifting based particles
-        bool isDrifting = Input.GetKey(currentInput.handBrake) && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
+        bool isDrifting = NewInput.isDrifting && velocity.magnitude > (speed_Base_ms * 0.15f); // Am I drifting AND I am still above X % of my base speed? Good, then play the drift effects
 
         RaycastHit groundCheck;
         Physics.Raycast(transform.position, Vector3.down, out groundCheck);
@@ -411,5 +355,42 @@ public class Controller_Vehicle : MonoBehaviour
             }
         }
     }
+
+    #region Collect Inputs
+
+    [System.Serializable]
+    public class NewInputClass
+				{
+        public bool isAccelerating;
+        public float turning;
+        public bool isDrifting;
+        public bool onBrakeReverse;
+				}
+
+
+    public NewInputClass NewInput = new NewInputClass();
+
+    bool Input_isAccelerating;
+    void OnAccelerate(InputValue value)
+    {
+        NewInput.isAccelerating = value.Get<float>() != 0 ? true : false;
+    }
+
+    void OnTurning(InputValue value)
+    {
+        NewInput.turning = value.Get<float>();
+    }
+
+    void OnDrift(InputValue value)
+    {
+        NewInput.isDrifting = value.Get<float>() != 0 ? true : false;
+    }
+
+    void OnBrakeReverse(InputValue value)
+    {
+        NewInput.onBrakeReverse = value.Get<float>() != 0 ? true : false;
+    }
+
+    #endregion
 
 }

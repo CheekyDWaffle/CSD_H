@@ -26,6 +26,7 @@ public class Manager_Goals : MonoBehaviour
 
         Debug.DrawRay(goalPosition, forward * goalWidth / 2, Color.red);
         Debug.DrawRay(goalPosition, right * goalWidth / 2, Color.blue);
+        Debug.DrawRay(goalPosition, -right * goalWidth / 2, Color.cyan);
     }
 
     public bool isPassingGoal(Transform target, Vector3 velocity, bool wasGoingReverse, int lastLapCount, out bool isGoingReverse, out int lapCount)

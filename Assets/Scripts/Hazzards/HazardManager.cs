@@ -23,7 +23,7 @@ public class HazardManager : MonoBehaviour
     private void Update()
     {
 
-        if (raycastOrigin != lastVector3)
+        if (testCube != null && raycastOrigin != lastVector3)
         {
             testCube.transform.position = raycastOrigin;
             //RaycastHit hit;

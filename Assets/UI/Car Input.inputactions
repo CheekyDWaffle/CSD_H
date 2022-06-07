@@ -1,0 +1,45 @@
+{
+    "name": "Car Input",
+    "maps": [
+        {
+            "name": "Car",
+            "id": "73140c60-35d5-4f69-ac15-b6f7c97df454",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "dea985fc-516a-4fec-bcd7-f12b0ceb0c86",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "824dd74d-18ec-4dc1-9df2-e9b0cacc9ad9",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "337ba8f7-7be2-499b-8024-b42250afeea4",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

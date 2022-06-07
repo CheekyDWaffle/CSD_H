@@ -10,8 +10,8 @@ public class hazard_RND_OilSpil : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<Controller_Vehicle>().friction_Modifier -= tractionLoss;
-            other.GetComponent<Controller_Vehicle>().turnSpeed -= stearingLoss;
+            other.GetComponent<Controller_Vehicle>().grip_Multiplier -= tractionLoss;
+            other.GetComponent<Controller_Vehicle>().turnSpeed_Modifier -= stearingLoss;
 
         }
     }
@@ -20,8 +20,8 @@ public class hazard_RND_OilSpil : MonoBehaviour
         Debug.Log(other.name + "exited");
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<Controller_Vehicle>().friction_Modifier += tractionLoss;
-            other.GetComponent<Controller_Vehicle>().turnSpeed += stearingLoss;
+            other.GetComponent<Controller_Vehicle>().grip_Multiplier += tractionLoss;
+            other.GetComponent<Controller_Vehicle>().turnSpeed_Modifier += stearingLoss;
         }
     }
 }

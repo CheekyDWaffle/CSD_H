@@ -56,8 +56,8 @@ public class Manager_UI : MonoBehaviour
         SpawnNewPlayer(true);
 
 
-        if (Input.GetKeyDown(KeyCode.X)) // Hard Reset for debug purposes.
-            SpawnNewPlayer();
+        //if (Input.GetKeyDown(KeyCode.X)) // Hard Reset for debug purposes.
+        //    SpawnNewPlayer();
 
         if (false && BlackScreen_FadeTime_Timer != -1) // All of the timer shenanigans
         {

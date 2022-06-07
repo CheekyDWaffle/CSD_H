@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Controller_MapBuild : MonoBehaviour
 {
@@ -49,7 +50,6 @@ public class Controller_MapBuild : MonoBehaviour
         gridCheck = new bool[gridLength, gridLength];
         car1.pauseCar = isInBuildMode;
         buildPhaseTransform.gameObject.SetActive(isInBuildMode);
-
     }
 
     // Update is called once per frame
@@ -71,8 +71,8 @@ public class Controller_MapBuild : MonoBehaviour
             }
 
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && buildModeChangeTimer == -1)
-                buildModeChangeTimer = Manager_UI.Get().Fade_Black();
+           // if (Input.GetKeyDown(KeyCode.LeftShift) && buildModeChangeTimer == -1)
+           //     buildModeChangeTimer = Manager_UI.Get().Fade_Black();
 
             buildPhaseTransform.gameObject.SetActive(isInBuildMode);
 
