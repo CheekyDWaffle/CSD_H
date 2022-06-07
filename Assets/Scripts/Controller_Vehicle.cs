@@ -52,6 +52,7 @@ public class Controller_Vehicle : MonoBehaviour
 
     float soundTimer = 0;
     bool canPlaySound { get { return soundTimer < 0; } }
+    int previousSoundIndex = -1;
 
     void Awake() // Awake is triggered before any Start(), so things that looks for stuff tagged as "player" as this object is spawned, will always find this.
     {
@@ -184,16 +185,40 @@ public class Controller_Vehicle : MonoBehaviour
         transform.RotateAround(transform.position + transform.forward * axelPosition, transform.up, angle * timeStep);
         #endregion
 
-        if (!NewInput.isDrifting && speed > 5 && canPlaySound)
+        if (!NewInput.isDrifting && speed > 5)
         {
-            source.PlayOneShot(Sounds[0].sound);
-            soundTimer = Sounds[0].sound.length;
+            int soundIndex = 0;
+
+            if (previousSoundIndex != soundIndex || canPlaySound)
+            {
+                source.PlayOneShot(Sounds[soundIndex].sound);
+                soundTimer = Sounds[soundIndex].sound.length;
+                previousSoundIndex = soundIndex;
+            }
         }
 
-        if (NewInput.isDrifting && velocity.magnitude > (speed_Base_ms * 0.15f) && canPlaySound)
+        if (NewInput.isDrifting && velocity.magnitude > (speed_Base_ms * 0.15f))
         {
-            source.PlayOneShot(Sounds[1].sound);
-            soundTimer = Sounds[1].sound.length;
+            int soundIndex = 1;
+
+            if (previousSoundIndex != soundIndex || canPlaySound)
+            {
+                source.PlayOneShot(Sounds[soundIndex].sound);
+                soundTimer = Sounds[soundIndex].sound.length;
+                previousSoundIndex = soundIndex;
+            }
+        }
+
+        if (!NewInput.isDrifting && speed < 5)
+        {
+            int soundIndex = 99;
+
+            if (previousSoundIndex != soundIndex || canPlaySound)
+            {
+                source.Stop();
+                soundTimer = 0;
+                previousSoundIndex = soundIndex;
+            }
         }
 
         #region Applying the actual velocity
