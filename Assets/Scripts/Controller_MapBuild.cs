@@ -29,6 +29,8 @@ public class Controller_MapBuild : MonoBehaviour
     public HazardManager managerHazard;
     private Builder_UI_Manager builderUI;
 
+    Transform cameraTransform;
+
     [Header("Settings")]
     public float cursorSpeed = 2;
     public int gridSize = 100;
@@ -50,6 +52,8 @@ public class Controller_MapBuild : MonoBehaviour
         gridCheck = new bool[gridLength, gridLength];
         car1.pauseCar = isInBuildMode;
         buildPhaseTransform.gameObject.SetActive(isInBuildMode);
+
+        cameraTransform = GetComponentInChildren<Camera>(true).transform;
     }
 
     // Update is called once per frame
@@ -71,10 +75,11 @@ public class Controller_MapBuild : MonoBehaviour
             }
 
 
-           // if (Input.GetKeyDown(KeyCode.LeftShift) && buildModeChangeTimer == -1)
-           //     buildModeChangeTimer = Manager_UI.Get().Fade_Black();
+           if (Input.GetKeyDown(KeyCode.LeftShift) && buildModeChangeTimer == -1)
+               buildModeChangeTimer = Manager_UI.Get().Fade_Black();
 
             buildPhaseTransform.gameObject.SetActive(isInBuildMode);
+            cameraTransform.GetComponent<Camera>().enabled = true;
 
             if (!isInBuildMode)
             {

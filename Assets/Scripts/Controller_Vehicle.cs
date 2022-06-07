@@ -86,8 +86,13 @@ public class Controller_Vehicle : MonoBehaviour
     {
         soundTimer -= Time.deltaTime;
 
+
+        GetComponentInChildren<Camera>().gameObject.SetActive(pauseCar);
         if (pauseCar) // the car is being told to sit still and wait.
+        {
+          
             return;
+        }
 
 
         float timeStep = Time.deltaTime; // Identical to Time.deltaTime. For thise project it serves no specific purpose.
