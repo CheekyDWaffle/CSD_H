@@ -185,7 +185,7 @@ public class Controller_Vehicle : MonoBehaviour
         transform.RotateAround(transform.position + transform.forward * axelPosition, transform.up, angle * timeStep);
         #endregion
 
-        if (!NewInput.isDrifting && speed > 5)
+        if (NewInput.isAccelerating && !NewInput.isDrifting)
         {
             int soundIndex = 0;
 
@@ -209,7 +209,7 @@ public class Controller_Vehicle : MonoBehaviour
             }
         }
 
-        if (!NewInput.isDrifting && speed < 5)
+        if (!NewInput.isDrifting && !NewInput.isAccelerating)
         {
             int soundIndex = 99;
 
