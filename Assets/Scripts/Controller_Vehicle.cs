@@ -46,8 +46,12 @@ public class Controller_Vehicle : MonoBehaviour
 
     [HideInInspector]
     public int playerIndex = 0;
+    AudioSource source;
 
     public bool pauseCar = false;
+
+    float soundTimer = 0;
+    bool canPlaySound { get { return soundTimer < 0; } }
 
     void Awake() // Awake is triggered before any Start(), so things that looks for stuff tagged as "player" as this object is spawned, will always find this.
     {
@@ -56,6 +60,8 @@ public class Controller_Vehicle : MonoBehaviour
         startPos = transform.position;
         startRot = transform.eulerAngles;
         startRight = transform.right;
+
+        source = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -63,6 +69,7 @@ public class Controller_Vehicle : MonoBehaviour
         Manager_UI.Get().AdjustScreen();
 
         goalManager = Manager_UI.Get().GetComponent<Manager_Goals>();
+
 
 
 
@@ -76,6 +83,8 @@ public class Controller_Vehicle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        soundTimer -= Time.deltaTime;
+
         if (pauseCar) // the car is being told to sit still and wait.
             return;
 
@@ -138,6 +147,10 @@ public class Controller_Vehicle : MonoBehaviour
         float speed_kmh = Mathf.Round(speed * 60 * 60 / 1000);
 
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
+
+
+  
+
         #endregion
 
         #region Ground check.
@@ -170,6 +183,18 @@ public class Controller_Vehicle : MonoBehaviour
 
         transform.RotateAround(transform.position + transform.forward * axelPosition, transform.up, angle * timeStep);
         #endregion
+
+        if (!NewInput.isDrifting && speed > 5 && canPlaySound)
+        {
+            source.PlayOneShot(Sounds[0].sound);
+            soundTimer = Sounds[0].sound.length;
+        }
+
+        if (NewInput.isDrifting && velocity.magnitude > (speed_Base_ms * 0.15f) && canPlaySound)
+        {
+            source.PlayOneShot(Sounds[1].sound);
+            soundTimer = Sounds[1].sound.length;
+        }
 
         #region Applying the actual velocity
         float frictionStep = roadGrip * timeStep * grip_Multiplier;
@@ -354,6 +379,14 @@ public class Controller_Vehicle : MonoBehaviour
         public bool isDrifting;
         public bool onBrakeReverse;
 				}
+
+    [System.Serializable]
+    public struct SoundClass
+    {
+        public string name;
+        public AudioClip sound;
+    }
+    public SoundClass[] Sounds;
 
 
     public NewInputClass NewInput = new NewInputClass();
