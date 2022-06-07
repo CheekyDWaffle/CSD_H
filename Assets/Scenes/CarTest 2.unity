@@ -3666,14 +3666,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2891313203098834048, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: m_Volume
-      value: 0.363
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114130018133, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: field of view
-      value: 70
-      objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3722,30 +3714,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: The Car
       objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: turnSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: speed_Base_kmh
-      value: 140
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: handbrakeStrength
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: handbrakeTurnMultiplier
-      value: 3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: Sounds.Array.data[0].sound
-      value: 
-      objectReference: {fileID: 8300000, guid: eed89fb43cf092c47a9da6945448f906, type: 3}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: Sounds.Array.data[1].sound
-      value: 
-      objectReference: {fileID: 8300000, guid: bcea792c05efec34b90a1ff48fffea78, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
 --- !u!1001 &1398219621

@@ -9682,7 +9682,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -9757,13 +9757,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c044db92be51184abd6ce2c79e43e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed_Base_kmh: 120
+  speed_Base_kmh: 140
   reverseSpeedPercentage: 0.2
   brakeStrength: 2
-  handbrakeStrength: 5
-  handbrakeTurnMultiplier: 2
+  handbrakeStrength: 1
+  handbrakeTurnMultiplier: 3.5
   roadGrip: 0.9
-  turnSpeed: 20
+  turnSpeed: 30
   roadGripSidewaysModifier: 2
   mimimumSpeedBeforeReversing_ms: 5
   grip_Multiplier: 1
@@ -9787,9 +9787,9 @@ MonoBehaviour:
   checkPoints: []
   Sounds:
   - name: Accelerating
-    sound: {fileID: 8300000, guid: 4d2c30a2993675e47b27a44429554de5, type: 3}
+    sound: {fileID: 8300000, guid: eed89fb43cf092c47a9da6945448f906, type: 3}
   - name: Drifting
-    sound: {fileID: 8300000, guid: 383b032ed72af334c9eda4ada72de35c, type: 3}
+    sound: {fileID: 8300000, guid: bcea792c05efec34b90a1ff48fffea78, type: 3}
   NewInput:
     isAccelerating: 0
     turning: 0
@@ -9850,7 +9850,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.363
   m_Pitch: 1
   Loop: 1
   Mute: 0
