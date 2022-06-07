@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Manager_Goals : MonoBehaviour
 {
+    [Header("Game Settings")]
+    public int totalLapCount = 3;
+
+    [Header("Goal Settings")]
     public Vector3 goalPosition;
     public float goalForward = 0;
     public float goalWidth = 10;
@@ -76,7 +80,7 @@ public class Manager_Goals : MonoBehaviour
 
 								}
 
-        if (lapCount > 3)
+        if (lapCount > totalLapCount)
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
