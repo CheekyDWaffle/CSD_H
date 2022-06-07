@@ -132,15 +132,37 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "80f52503-f911-4373-950e-782b64fbacdd",
-                    "path": "<Gamepad>/leftStick",
+                    "name": "1D Axis",
+                    "id": "5aeb1ab2-18a1-4f9e-94aa-dce46ac7da52",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turning",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "db520d9d-282b-4807-91eb-38d8ea2ceccf",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Turning",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "1b29d04e-7f4f-42f2-bd6b-8c394b772d1d",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turning",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
