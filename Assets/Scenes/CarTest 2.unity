@@ -3666,6 +3666,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2891313203098834048, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: m_Volume
+      value: 0.363
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085944114130018133, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: field of view
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3714,6 +3722,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: The Car
       objectReference: {fileID: 0}
+    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: turnSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: speed_Base_kmh
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: handbrakeStrength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: handbrakeTurnMultiplier
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: Sounds.Array.data[0].sound
+      value: 
+      objectReference: {fileID: 8300000, guid: eed89fb43cf092c47a9da6945448f906, type: 3}
+    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
+      propertyPath: Sounds.Array.data[1].sound
+      value: 
+      objectReference: {fileID: 8300000, guid: bcea792c05efec34b90a1ff48fffea78, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
 --- !u!1001 &1398219621
@@ -4631,11 +4663,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8468ab364c5975842889244a0db0ec75, type: 3}
+--- !u!1 &1932222127 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 199398, guid: e87a3acfe1e8b0642a783fab11506a12, type: 3}
+  m_PrefabInstance: {fileID: 1138471359}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1932222130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 438062, guid: e87a3acfe1e8b0642a783fab11506a12, type: 3}
   m_PrefabInstance: {fileID: 1138471359}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1932222131
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932222127}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.138437, y: 3.1534925, z: 2.0678563}
+  m_Center: {x: 0, y: 1.5767462, z: 0}
 --- !u!4 &2001473194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6832762215202243344, guid: b567ebdaeebfa8c44bd0d15f21762b3d, type: 3}
@@ -4868,11 +4918,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b567ebdaeebfa8c44bd0d15f21762b3d, type: 3}
+--- !u!1 &2098567028 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 199398, guid: e87a3acfe1e8b0642a783fab11506a12, type: 3}
+  m_PrefabInstance: {fileID: 1804013760}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2098567031 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 438062, guid: e87a3acfe1e8b0642a783fab11506a12, type: 3}
   m_PrefabInstance: {fileID: 1804013760}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &2098567032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098567028}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.138437, y: 3.1534925, z: 2.0678563}
+  m_Center: {x: 0, y: 1.5767462, z: 0}
 --- !u!4 &2099754156 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 431630, guid: 8468ab364c5975842889244a0db0ec75, type: 3}
