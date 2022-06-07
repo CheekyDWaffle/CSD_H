@@ -136,9 +136,6 @@ public class Manager_UI : MonoBehaviour
 
             Controller_Vehicle playerController = currentPlayer.GetComponent<Controller_Vehicle>();
 
-            playerController.currentInput = playerController.Inputs[i];
-            playerController.playerIndex = i;
-
             Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
 
             bool aboveThree = i > 1;

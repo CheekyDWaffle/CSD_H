@@ -9762,7 +9762,7 @@ MonoBehaviour:
   handbrakeStrength: 5
   handbrakeTurnMultiplier: 2
   roadGrip: 0.9
-  turnSpeed: 0.2
+  turnSpeed: 20
   roadGripSidewaysModifier: 2
   mimimumSpeedBeforeReversing_ms: 5
   grip_Multiplier: 1
@@ -9782,19 +9782,6 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0}
   startRight: {x: 0, y: 0, z: 0}
   playerIndex: 0
-  hostIsUsingController: 0
-  Inputs:
-  - playerName: Player 1
-    playerIndex: 0
-  - playerName: Player 2
-    playerIndex: 1
-  - playerName: Player 3
-    playerIndex: 2
-  - playerName: Player 4
-    playerIndex: 3
-  currentInput:
-    playerName: Player X
-    playerIndex: 0
   pauseCar: 0
   checkPoints: []
   NewInput:

@@ -47,25 +47,11 @@ public class Controller_Vehicle : MonoBehaviour
     [HideInInspector]
     public int playerIndex = 0;
 
-    [System.Serializable]
-    public class PlayerInput
-    {
-        public string playerName = "Player X";
-        public int playerIndex = 0;
-    }
-
-    public bool hostIsUsingController;
-    public PlayerInput[] Inputs;
-
-    [HideInInspector]
-    public PlayerInput currentInput;
-
     public bool pauseCar = false;
 
     void Awake() // Awake is triggered before any Start(), so things that looks for stuff tagged as "player" as this object is spawned, will always find this.
     {
         tag = "Player";
-        currentInput = Inputs[0];
 
         startPos = transform.position;
         startRot = transform.eulerAngles;
@@ -182,8 +168,7 @@ public class Controller_Vehicle : MonoBehaviour
         float minimumTurnModifier = Mathf.Clamp(velocity.magnitude / mimimumSpeedBeforeReversing_ms, 0, 1);
         float angle = sidewayModifier * (NewInput.isDrifting ? handbrakeTurnMultiplier : 1) * turnSpeed * turnSpeed_Modifier * minimumTurnModifier;
 
-        transform.RotateAround(transform.position + transform.forward * axelPosition, transform.up, angle);
-
+        transform.RotateAround(transform.position + transform.forward * axelPosition, transform.up, angle * timeStep);
         #endregion
 
         #region Applying the actual velocity
