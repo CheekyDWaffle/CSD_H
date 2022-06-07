@@ -71,10 +71,7 @@ public class Hazard_Lazer : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isActive = true;
-        }
+
         if (isActive)
         {
 

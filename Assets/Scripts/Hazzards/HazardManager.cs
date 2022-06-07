@@ -36,10 +36,24 @@ public class HazardManager : MonoBehaviour
     {
         if (selectedTrack.availableHazards.Count != 0)
         {
+            switch (builderUI.currentEnum)
+            {
+                case 0:
+                    RandomSpawn();
+                    break;
+                case 1:
+                    RandomSpawn();
+                    break;
+                case 2:
+
+                    break;
+                default:
+                    break;
+            }
             selectedTrack.availableHazards.Remove(builderUI.currentEnum);
-            RandomSpawn();
             Getlist();
         }
+
     }
     public void RandomSpawn()
     {
@@ -48,6 +62,22 @@ public class HazardManager : MonoBehaviour
         {
             Instantiate(trackModPrefab[builderUI.currentEnum], randVector3[i], Quaternion.identity);
             print("spawning " + builderUI.currentEnum);
+        }
+    }
+
+    public void ActivateHazard()
+    {
+        Collider[] hitCollider = Physics.OverlapSphere(raycastOrigin, 50);
+        if (hitCollider.Length != 0)
+        {
+            foreach (Collider collider in hitCollider)
+            {
+                if (collider.GetComponent<Hazard_Lazer>())
+                {
+                    collider.GetComponent<Hazard_Lazer>().isActive = true;
+                    break;
+                }
+            }
         }
     }
 

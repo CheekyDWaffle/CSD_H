@@ -176,6 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6564197324373081489}
   - component: {fileID: 6564197324373081518}
+  - component: {fileID: 7630703699862998396}
   m_Layer: 0
   m_Name: Lazer
   m_TagString: Untagged
@@ -223,6 +224,19 @@ MonoBehaviour:
   isActive: 0
   originalTransform: {x: 0, y: 0, z: 0}
   orignalScale: {x: 0, y: 0, z: 0}
+--- !u!114 &7630703699862998396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564197324373081519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d5e0d33a5657f479a9cb7fd3a65ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableHazards: 02000000
 --- !u!1 &6564197325429794180
 GameObject:
   m_ObjectHideFlags: 0
