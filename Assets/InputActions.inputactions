@@ -248,28 +248,5 @@
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "New control scheme",
-            "bindingGroup": "New control scheme",
-            "devices": [
-                {
-                    "devicePath": "<Gamepad>",
-                    "isOptional": true,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "New control scheme1",
-            "bindingGroup": "New control scheme1",
-            "devices": [
-                {
-                    "devicePath": "<Keyboard>",
-                    "isOptional": true,
-                    "isOR": false
-                }
-            ]
-        }
-    ]
+    "controlSchemes": []
 }
