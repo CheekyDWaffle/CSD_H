@@ -1838,6 +1838,7 @@ MonoBehaviour:
   gridSize: 100
   gridLength: 10
   trackSize: 200
+  buildModeChangeTimer: -1
 --- !u!114 &1059018778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,7 +1851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff927cd119d09a04bb382b1e37d579e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalLapCount: 3
+  totalLapCount: 1
   goalPosition: {x: 1298, y: 1, z: 1098}
   goalForward: 180
   goalWidth: 22
@@ -1888,7 +1889,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 0}
+  m_PlayerPrefab: {fileID: 9085944114988888870, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1

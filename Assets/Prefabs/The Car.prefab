@@ -9770,7 +9770,7 @@ MonoBehaviour:
   speed_Multiplier: 1
   turnSpeed_Modifier: 1
   checkPointSaveFrequency: 1
-  checkPointRollback: 2
+  checkPointRollback: 3
   axelPosition: 1.0215
   velocity: {x: 0, y: 0, z: 0}
   currentSpeed: 

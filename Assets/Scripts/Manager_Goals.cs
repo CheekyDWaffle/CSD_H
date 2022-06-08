@@ -64,6 +64,8 @@ public class Manager_Goals : MonoBehaviour
                 lapCount++;
                 isGoingReverse = false;
                 goOnCooldown = true;
+
+                OnPassGoal(target.GetComponent<Controller_Vehicle>(), lapCount);
 												}
 
             if (isMovingForward && wasGoingReverse)
@@ -80,6 +82,13 @@ public class Manager_Goals : MonoBehaviour
 
 								}
 
+        return goOnCooldown;
+    }
+
+				private void OnPassGoal(Controller_Vehicle player, int lapCount)
+				{
+
+
         if (lapCount > totalLapCount)
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -87,10 +96,10 @@ public class Manager_Goals : MonoBehaviour
             for (int i = 0; i < players.Length; i++)
             {
                 players[i].GetComponent<Controller_Vehicle>().Reset();
-
+                players[i].GetComponent<Controller_Vehicle>().lapCount = 0;
             }
-        }
 
-        return goOnCooldown;
-    }
+            GetComponent<Controller_MapBuild>().buildModeChangeTimer = Manager_UI.Get().Fade_Black();
+        }
+				}
 }

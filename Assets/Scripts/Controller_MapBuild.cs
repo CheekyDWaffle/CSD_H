@@ -41,7 +41,8 @@ public class Controller_MapBuild : MonoBehaviour
     public bool[,] gridCheck;
 
     bool isInBuildMode = false;
-    float buildModeChangeTimer = -1;
+    [HideInInspector]
+    public float buildModeChangeTimer = -1;
 
     int currentRotation = 0;
 
@@ -84,7 +85,7 @@ public class Controller_MapBuild : MonoBehaviour
             }
 
 
-           if (Input.GetKeyDown(KeyCode.LeftShift) && buildModeChangeTimer == -1)
+           if (Input.GetKeyDown(KeyCode.F) && buildModeChangeTimer == -1)
                buildModeChangeTimer = Manager_UI.Get().Fade_Black();
 
             buildPhaseTransform.gameObject.SetActive(isInBuildMode);

@@ -437,6 +437,12 @@ public class Controller_Vehicle : MonoBehaviour
         NewInput.onBrakeReverse = value.Get<float>() != 0 ? true : false;
     }
 
+    void OnExitBuild(InputValue value)
+    {
+        if(pauseCar)
+            Manager_UI.Get().GetComponent<Controller_MapBuild>().buildModeChangeTimer = Manager_UI.Get().Fade_Black();
+    }
+
     #endregion
 
 }
