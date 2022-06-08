@@ -136,6 +136,21 @@ public class Manager_UI : MonoBehaviour
 
             Controller_Vehicle playerController = currentPlayer.GetComponent<Controller_Vehicle>();
 
+
+            Controller_Vehicle originalPlayer = players[0].GetComponent<Controller_Vehicle>();
+
+            if (i > 0)
+            {
+                float playerWidth = originalPlayer.GetComponent<BoxCollider>().size.x;
+
+                playerController.startPos = originalPlayer.startPos + (originalPlayer.startRight * playerWidth * 1.1f * players.Length);
+                playerController.startRight = originalPlayer.startRight;
+                playerController.startRot = originalPlayer.startRot;
+                playerController.ReturnToTrack();
+
+                playerController.lapCount = 0;
+            }
+
             Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
 
             bool aboveThree = i > 1;
