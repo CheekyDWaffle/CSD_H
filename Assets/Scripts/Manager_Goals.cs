@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manager_Goals : MonoBehaviour
 {
@@ -12,9 +13,11 @@ public class Manager_Goals : MonoBehaviour
     public float goalForward = 0;
     public float goalWidth = 10;
 
+    [Header("scene to load, int")]
+    public int endScene;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -34,7 +37,7 @@ public class Manager_Goals : MonoBehaviour
     }
 
     public bool isPassingGoal(Transform target, Vector3 velocity, bool wasGoingReverse, int lastLapCount, out bool isGoingReverse, out int lapCount)
-				{
+    {
 
         /// Note: Right now it checks the center of the car, not front. I'll get on that eventually.
         bool goOnCooldown = false;
@@ -57,16 +60,15 @@ public class Manager_Goals : MonoBehaviour
         bool isInfrontOfGoal = positionDot > 0 && positionDot < 0.5f;
         bool isMovingForward = velocityDot > 0;
 
-        if(isInfrontOfGoal)
-								{
-            if(isMovingForward && !wasGoingReverse)
-												{
+        if (isInfrontOfGoal)
+        {
+            if (isMovingForward && !wasGoingReverse)
+            {
                 lapCount++;
                 isGoingReverse = false;
                 goOnCooldown = true;
-
                 OnPassGoal(target.GetComponent<Controller_Vehicle>(), lapCount);
-												}
+            }
 
             if (isMovingForward && wasGoingReverse)
             {
@@ -75,31 +77,37 @@ public class Manager_Goals : MonoBehaviour
             }
 
             if (!isMovingForward)
-												{
+            {
                 isGoingReverse = true;
 
-												}
+            }
 
-								}
+        }
 
         return goOnCooldown;
     }
 
-				private void OnPassGoal(Controller_Vehicle player, int lapCount)
-				{
+    private void OnPassGoal(Controller_Vehicle player, int lapCount)
+    {
+        print(lapCount);
 
-
-        if (lapCount > totalLapCount)
+        if (lapCount >= totalLapCount)
         {
+            SceneManager.LoadScene(endScene);
+            print("loadscene");
+        }
+        else
+        {
+            print("dont load scene");
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
             for (int i = 0; i < players.Length; i++)
             {
                 players[i].GetComponent<Controller_Vehicle>().Reset();
-                players[i].GetComponent<Controller_Vehicle>().lapCount = 0;
+                players[i].GetComponent<Controller_Vehicle>().lapCount = lapCount;
             }
 
             GetComponent<Controller_MapBuild>().buildModeChangeTimer = Manager_UI.Get().Fade_Black();
         }
-				}
+    }
 }
