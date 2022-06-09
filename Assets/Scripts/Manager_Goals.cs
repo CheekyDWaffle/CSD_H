@@ -89,16 +89,13 @@ public class Manager_Goals : MonoBehaviour
 
     private void OnPassGoal(Controller_Vehicle player, int lapCount)
     {
-        print(lapCount);
 
         if (lapCount >= totalLapCount)
         {
             SceneManager.LoadScene(endScene);
-            print("loadscene");
         }
         else
         {
-            print("dont load scene");
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
             for (int i = 0; i < players.Length; i++)
