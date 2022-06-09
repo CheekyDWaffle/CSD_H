@@ -11,21 +11,15 @@ public class Controller_MapBuild : MonoBehaviour
     {
         public string name;
         public RectTransform cursor;
-        public Color color;
-        public Vector2 worldPosition;
+        public Vector2 lerpPosition;
         public Vector2 gridPosition;
-        public Vector2 cursorInput;
     }
 
-
     [Header("Assign")]
+    public GameObject buildMarkerDefault;
+    private GameObject[] buildMarkers;
     public Player[] players;
     public Transform buildPhaseTransform;
-    public Sprite occupied_I_Sprite;
-    public Sprite occupied_L_Sprite;
-    public GameObject prefab_track_I;
-    public GameObject prefab_track_L;
-    public Controller_Vehicle car1;
     public HazardManager managerHazard;
     private Builder_UI_Manager builderUI;
 
@@ -34,7 +28,6 @@ public class Controller_MapBuild : MonoBehaviour
     [Header("Settings")]
     public float cursorSpeed = 2;
     public int gridSize = 100;
-    public int gridLength = 10;
     public int trackSize = 20;
 
     [Header("Read Only")]
@@ -44,183 +37,101 @@ public class Controller_MapBuild : MonoBehaviour
     [HideInInspector]
     public float buildModeChangeTimer = -1;
 
-    int currentRotation = 0;
-
-
     // Start is called before the first frame update
     void Start()
     {
-        gridCheck = new bool[gridLength, gridLength];
-        car1.pauseCar = isInBuildMode;
-        buildPhaseTransform.gameObject.SetActive(isInBuildMode);
+        gridCheck = new bool[10, 10];
 
         cameraTransform = GetComponentInChildren<Camera>(true).transform;
-    }
 
-    // Update is called once per frame
-    void Update()
+								#region Marker Setup
+
+								int maxPlayerNumber = 4;
+
+        buildMarkers = new GameObject[maxPlayerNumber];
+
+        for (int i = 0; i < maxPlayerNumber; i++)
+        {
+            buildMarkers[i] = (i == 0 ? buildMarkerDefault : Instantiate(buildMarkerDefault));
+            buildMarkers[i].transform.SetParent(buildMarkerDefault.transform.parent);
+
+            buildMarkers[i].GetComponent<Image>().color = Manager_UI.Get().colors[i];
+
+            buildMarkers[i].name = "Build Marker (Player " + (i + 1) + ")";
+            buildMarkers[i].SetActive(i == 0);
+        }
+								#endregion
+				}
+
+				// Update is called once per frame
+				void Update()
     {
         #region Buildmode Transition
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < playerObjects.Length; i++)
         {
+            Controller_Vehicle currentCar = playerObjects[i].GetComponent<Controller_Vehicle>();
 
-            GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-            for (int i = 0; i < playerObjects.Length; i++)
+            currentCar.GetComponentInChildren<Camera>(true).gameObject.SetActive(!isInBuildMode);
+        }
+
+        if (buildModeChangeTimer != -1)
+        {
+            buildModeChangeTimer -= Time.deltaTime;
+
+            if (buildModeChangeTimer < 0)
             {
-                Controller_Vehicle currentCar = playerObjects[i].GetComponent<Controller_Vehicle>();
+                isInBuildMode = !isInBuildMode;
 
-                currentCar.GetComponentInChildren<Camera>(true).gameObject.SetActive(!isInBuildMode);
-            }
-
-            if (buildModeChangeTimer != -1)
-            {
-                buildModeChangeTimer -= Time.deltaTime;
-
-                if (buildModeChangeTimer < 0)
-                {
-                    isInBuildMode = !isInBuildMode;
-                    car1.pauseCar = isInBuildMode;
-
-                    buildModeChangeTimer = -1;
-                }
-            }
-
-
-           if (Input.GetKeyDown(KeyCode.F) && buildModeChangeTimer == -1)
-               buildModeChangeTimer = Manager_UI.Get().Fade_Black();
-
-            buildPhaseTransform.gameObject.SetActive(isInBuildMode);
-            cameraTransform.GetComponent<Camera>().enabled = true;
-
-            if (!isInBuildMode)
-            {
-                return;
+                buildModeChangeTimer = -1;
             }
         }
+
+
+        if (Input.GetKeyDown(KeyCode.F) && buildModeChangeTimer == -1)
+            buildModeChangeTimer = Manager_UI.Get().Fade_Black();
+
+        buildPhaseTransform.gameObject.SetActive(isInBuildMode);
+        cameraTransform.GetComponent<Camera>().enabled = true;
+        cameraTransform.GetComponent<Camera>().orthographicSize = 5.4f * trackSize;
         #endregion
 
-       
-
-        float timeStep = Time.deltaTime;
-
-        Player localPlayer = players[0];
-
-
-        int moveVertical = (Input.GetKeyDown(KeyCode.W) ? 1 : 0) + (Input.GetKeyDown(KeyCode.S) ? -1 : 0);
-        int moveHorizontal = (Input.GetKeyDown(KeyCode.D) ? 1 : 0) + (Input.GetKeyDown(KeyCode.A) ? -1 : 0);
-
-        localPlayer.cursorInput = new Vector2(moveHorizontal, moveVertical);
-
-
-        for (int i = 0; i < 1; i++)
-        {
-            Player currentPlayer = players[i];
-
-            currentPlayer.worldPosition += currentPlayer.cursorInput * trackSize / 2;// * cursorSpeed * timeStep;
-            currentPlayer.gridPosition.x = Mathf.Round(currentPlayer.worldPosition.x / gridSize) * gridSize;
-            currentPlayer.gridPosition.y = Mathf.Round(currentPlayer.worldPosition.y / gridSize) * gridSize;
-
-            Vector2 gridUI = currentPlayer.gridPosition;
-            gridUI.x += gridSize / 2;
-            gridUI.y += gridSize / 2;
-
-            currentPlayer.cursor.localPosition = gridUI;
-
-            #region This whole region makes no sense, what am I doing??? - Talha
-            Vector2 rawGrid = localPlayer.gridPosition / gridSize + new Vector2(gridLength, gridLength) / 2;
-
-            Vector3 hazardVector = new Vector3(currentPlayer.gridPosition.x + gridLength / 2, 0.9f, currentPlayer.gridPosition.y + gridLength / 2);
-
-            managerHazard.raycastOrigin = new Vector3(rawGrid.x * trackSize + trackSize / 2, 10f, rawGrid.y * trackSize + trackSize / 2);
-
-            #endregion
-
-            #region Fetch Available Hazards
-
-            //builderUI.usableHazards = builderUI.allHazards;
-            #endregion
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                //SpawnTrack(localPlayer, false);
-
-                //Vector3 hazardVector = new Vector3(currentPlayer.worldPosition.x, 0, currentPlayer.worldPosition.y);
-
-                //managerHazard.raycastOrigin = hazardVector;
-                //managerHazard.randomSpawn(0);
-
-
-                builderUI.DisplayChange(1);
-
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                //SpawnTrack(localPlayer, true);
-                builderUI.DisplayChange(-1);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                managerHazard.SpawnHazard();
-            }
-
-
-
-        }
-
-
+        for (int i = 0; i < playerObjects.Length; i++)
+            BuildPhase(i, playerObjects[i].GetComponent<Controller_Vehicle>());
     }
 
+    void BuildPhase(int playerIndex, Controller_Vehicle currentVehicle)
+				{
+								Player currentMarker = players[playerIndex];
+        buildMarkers[playerIndex].SetActive(true);
 
-    void SpawnTrack(Player localPlayer, bool alt)
-    {
-        Vector2 rawGrid = localPlayer.gridPosition / gridSize + new Vector2(gridLength, gridLength) / 2;
+        currentVehicle.pauseCar = isInBuildMode;
 
-        bool gridIsOccupied = gridCheck[(int)rawGrid.x, (int)rawGrid.y];
+        if (!isInBuildMode)
+            return;
 
-        if (!gridIsOccupied)
-        {
-            Transform newTrackPiece = transform;
+        #region Buildphase inputs, markers, etc
+        // Input, which I fetch from the car script.
+        currentMarker.lerpPosition += currentVehicle.NewInput.navigateBuild * cursorSpeed * Time.deltaTime;
+        currentMarker.gridPosition = new Vector2(Mathf.Round(currentMarker.lerpPosition.x), Mathf.Round(currentMarker.lerpPosition.y));
 
-            if (alt)
-                newTrackPiece = Instantiate(prefab_track_L).transform;
-            else
-                newTrackPiece = Instantiate(prefab_track_I).transform;
+        // Update the Marker UI element
+        buildMarkers[playerIndex].transform.localPosition = (currentMarker.gridPosition * gridSize) + (Vector2.one * gridSize / 2); // This centers the marker on the UI.
+        #endregion
 
-            if (alt)
-            {
-                newTrackPiece.eulerAngles += new Vector3(0, 180);
-            }
+        #region This is the part that interacts with the Hazard Manager
 
-            for (int i = 0; i < currentRotation; i++)
-            {
-                newTrackPiece.eulerAngles += new Vector3(0, 90);
-            }
+        // The Vector the Hazardmanager ends up readding
+        Vector2 hazardVector = currentMarker.gridPosition * trackSize + Vector2.one * trackSize / 2 + Vector2.one * 10 * gridSize; // Gridsize to real world cordinates; Add half a track size to get to the center; Decenter it by 10 grids.
 
+        managerHazard.raycastOrigin = new Vector3(hazardVector.x, 10f, hazardVector.y);
 
-            newTrackPiece.position = new Vector3(rawGrid.x * trackSize + trackSize / 2, 0, rawGrid.y * trackSize + trackSize / 2);
+        if (Input.GetKeyDown(KeyCode.Q))
+            builderUI.DisplayChange(1);
 
+        if (Input.GetKeyDown(KeyCode.E))
+            builderUI.DisplayChange(-1);
 
-            GameObject occupiedMarker = Instantiate(localPlayer.cursor.gameObject, buildPhaseTransform);
-            occupiedMarker.GetComponent<Image>().sprite = alt ? occupied_L_Sprite : occupied_I_Sprite;
-            occupiedMarker.GetComponent<Image>().color = Color.white;
-
-            for (int i = 0; i < currentRotation; i++)
-            {
-                occupiedMarker.transform.eulerAngles -= new Vector3(0, 0, 90);
-            }
-
-            if (alt)
-            {
-
-                currentRotation += 1;
-                if (currentRotation == 4)
-                    currentRotation = 0;
-            }
-
-
-
-            gridCheck[(int)rawGrid.x, (int)rawGrid.y] = true;
-        }
-    }
+								#endregion
+				}
 }

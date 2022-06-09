@@ -150,7 +150,7 @@ public class Controller_Vehicle : MonoBehaviour
         currentSpeed = "Current speed is: " + speed + " m/s. (" + speed_kmh + " km/h)";
 
 
-  
+
 
         #endregion
 
@@ -398,12 +398,14 @@ public class Controller_Vehicle : MonoBehaviour
 
     [System.Serializable]
     public class NewInputClass
-				{
+    {
         public bool isAccelerating;
         public float turning;
         public bool isDrifting;
         public bool onBrakeReverse;
-				}
+
+        public Vector2 navigateBuild;
+    }
 
     [System.Serializable]
     public struct SoundClass
@@ -439,10 +441,14 @@ public class Controller_Vehicle : MonoBehaviour
 
     void OnExitBuild(InputValue value)
     {
-        if(pauseCar)
+        if (pauseCar)
             Manager_UI.Get().GetComponent<Controller_MapBuild>().buildModeChangeTimer = Manager_UI.Get().Fade_Black();
     }
 
-    #endregion
+    void OnNavigateBuild(InputValue value)
+    {
+        NewInput.navigateBuild = value.Get<Vector2>();
 
+    }
+    #endregion
 }

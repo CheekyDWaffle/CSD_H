@@ -1340,7 +1340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5441553957091838587
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1802,10 +1802,10 @@ MonoBehaviour:
   BlackScreen_FadeTime_Total: 0.5
   BlackScreen_FadeTime_RemainBlack: 0.1
   colors:
-  - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0.27892852, b: 1, a: 0}
-  - {r: 0.08037208, g: 0.5660378, b: 0, a: 0}
-  - {r: 1, g: 0, b: 0.70319223, a: 0}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0.27892852, b: 1, a: 1}
+  - {r: 0.08037208, g: 0.5660378, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.70319223, a: 1}
   BlackScreen: {fileID: 644217263}
   carPrefab: {fileID: 0}
 --- !u!114 &8232843830173854745
@@ -1820,23 +1820,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d09dc1258715d4882c71d35553abc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildMarkerDefault: {fileID: 1159675306}
   players:
   - name: Player1
     cursor: {fileID: 1159675307}
-    color: {r: 1, g: 0, b: 0, a: 0}
-    worldPosition: {x: 0, y: 0}
+    lerpPosition: {x: 0, y: 0}
     gridPosition: {x: 0, y: 0}
-    cursorInput: {x: 0, y: 0}
+  - name: Player2
+    cursor: {fileID: 1159675307}
+    lerpPosition: {x: 0, y: 0}
+    gridPosition: {x: 0, y: 0}
+  - name: Player3
+    cursor: {fileID: 1159675307}
+    lerpPosition: {x: 0, y: 0}
+    gridPosition: {x: 0, y: 0}
+  - name: Player4
+    cursor: {fileID: 1159675307}
+    lerpPosition: {x: 0, y: 0}
+    gridPosition: {x: 0, y: 0}
   buildPhaseTransform: {fileID: 5441553957091838587}
-  occupied_I_Sprite: {fileID: 21300000, guid: 391f26b29a020fb40a864d7bda93af73, type: 3}
-  occupied_L_Sprite: {fileID: 21300000, guid: 126afd36ea2a154469e889322090a15a, type: 3}
-  prefab_track_I: {fileID: 7657449326698190516, guid: 58a61d4f05495654ead58dd1c93be51c, type: 3}
-  prefab_track_L: {fileID: 212913297879500620, guid: f86f3875770f5f040b5af9f9d39679a5, type: 3}
-  car1: {fileID: 0}
   managerHazard: {fileID: 0}
-  cursorSpeed: 200
+  cursorSpeed: 5
   gridSize: 100
-  gridLength: 10
   trackSize: 200
   buildModeChangeTimer: -1
 --- !u!114 &1059018778
@@ -1855,6 +1860,7 @@ MonoBehaviour:
   goalPosition: {x: 1298, y: 1, z: 1098}
   goalForward: 180
   goalWidth: 22
+  endScene: 0
 --- !u!114 &1778950433
 MonoBehaviour:
   m_ObjectHideFlags: 0

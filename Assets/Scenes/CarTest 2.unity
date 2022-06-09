@@ -1146,17 +1146,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194520332}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &195776142 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-  m_PrefabInstance: {fileID: 1395700197}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312806355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c044db92be51184abd6ce2c79e43e1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &213237519
 GameObject:
   m_ObjectHideFlags: 0
@@ -11629,10 +11618,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas - Ingame
       objectReference: {fileID: 0}
-    - target: {fileID: 8232843830173854745, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
-      propertyPath: car1
-      value: 
-      objectReference: {fileID: 195776142}
     - target: {fileID: 8232843830173854745, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
       propertyPath: managerHazard
       value: 
