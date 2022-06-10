@@ -405,6 +405,8 @@ public class Controller_Vehicle : MonoBehaviour
         public bool onBrakeReverse;
 
         public Vector2 navigateBuild;
+        public float navigateHazards;
+        public bool placeHazard;
     }
 
     [System.Serializable]
@@ -448,6 +450,18 @@ public class Controller_Vehicle : MonoBehaviour
     void OnNavigateBuild(InputValue value)
     {
         NewInput.navigateBuild = value.Get<Vector2>();
+
+    }
+
+    void OnNavigateHazards(InputValue value)
+    {
+        NewInput.navigateHazards = value.Get<float>();
+
+    }
+
+    void OnPlaceHazard(InputValue value)
+    {
+        NewInput.placeHazard = value.Get<float>() != 0;
 
     }
     #endregion

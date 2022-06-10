@@ -21,7 +21,7 @@ public class Controller_MapBuild : MonoBehaviour
     public Player[] players;
     public Transform buildPhaseTransform;
     public HazardManager managerHazard;
-    public Builder_UI_Manager[] builderUIs;
+    public Builder_UI_Manager[] builderUIArray;
 
     Transform cameraTransform;
 
@@ -61,8 +61,10 @@ public class Controller_MapBuild : MonoBehaviour
         }
         #endregion
 
-        builderUIs[0].DisplayChange(0);
-        builderUIs[1].DisplayChange(0);
+
+        for (int i = 0; i < builderUIArray.Length; i++)
+            builderUIArray[i].gameObject.SetActive(false);
+        
     }
 
 				// Update is called once per frame
@@ -106,6 +108,7 @@ public class Controller_MapBuild : MonoBehaviour
 				{
 								Player currentMarker = players[playerIndex];
         buildMarkers[playerIndex].SetActive(true);
+        builderUIArray[playerIndex].gameObject.SetActive(true);
 
         currentVehicle.pauseCar = isInBuildMode;
 
@@ -127,15 +130,24 @@ public class Controller_MapBuild : MonoBehaviour
         Vector2 hazardVector = currentMarker.gridPosition * trackSize + Vector2.one * trackSize / 2 + Vector2.one * 10 * gridSize; // Gridsize to real world cordinates; Add half a track size to get to the center; Decenter it by 10 grids.
 
         managerHazard.raycastOrigin = new Vector3(hazardVector.x, 10f, hazardVector.y);
+        managerHazard.testCube.transform.position = managerHazard.raycastOrigin;
+        managerHazard.builderUI = builderUIArray[playerIndex];
+        managerHazard.Getlist();
 
-        if (Input.GetKeyDown(KeyCode.Q))
-            builderUIs[playerIndex].DisplayChange(1);
+        if(currentVehicle.NewInput.navigateHazards != 0)
+								{
+            builderUIArray[playerIndex].DisplayChange(Mathf.RoundToInt(currentVehicle.NewInput.navigateHazards));
+            currentVehicle.NewInput.navigateHazards = 0;
+        }
 
-        if (Input.GetKeyDown(KeyCode.E))
-            builderUIs[playerIndex].DisplayChange(-1);
+        if (currentVehicle.NewInput.placeHazard)
+        {
+            managerHazard.SpawnHazard();
 
-        print(playerIndex);
+            currentVehicle.NewInput.placeHazard = false;
+        }
 
-								#endregion
-				}
+
+            #endregion
+        }
 }
