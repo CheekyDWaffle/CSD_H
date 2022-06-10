@@ -21,7 +21,7 @@ public class Controller_MapBuild : MonoBehaviour
     public Player[] players;
     public Transform buildPhaseTransform;
     public HazardManager managerHazard;
-    private Builder_UI_Manager builderUI;
+    public Builder_UI_Manager[] builderUIs;
 
     Transform cameraTransform;
 
@@ -41,7 +41,6 @@ public class Controller_MapBuild : MonoBehaviour
     void Start()
     {
         gridCheck = new bool[10, 10];
-
         cameraTransform = GetComponentInChildren<Camera>(true).transform;
 
 								#region Marker Setup
@@ -60,8 +59,11 @@ public class Controller_MapBuild : MonoBehaviour
             buildMarkers[i].name = "Build Marker (Player " + (i + 1) + ")";
             buildMarkers[i].SetActive(i == 0);
         }
-								#endregion
-				}
+        #endregion
+
+        builderUIs[0].DisplayChange(0);
+        builderUIs[1].DisplayChange(0);
+    }
 
 				// Update is called once per frame
 				void Update()
@@ -127,10 +129,12 @@ public class Controller_MapBuild : MonoBehaviour
         managerHazard.raycastOrigin = new Vector3(hazardVector.x, 10f, hazardVector.y);
 
         if (Input.GetKeyDown(KeyCode.Q))
-            builderUI.DisplayChange(1);
+            builderUIs[playerIndex].DisplayChange(1);
 
         if (Input.GetKeyDown(KeyCode.E))
-            builderUI.DisplayChange(-1);
+            builderUIs[playerIndex].DisplayChange(-1);
+
+        print(playerIndex);
 
 								#endregion
 				}

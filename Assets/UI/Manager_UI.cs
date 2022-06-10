@@ -151,7 +151,7 @@ public class Manager_UI : MonoBehaviour
                 playerController.lapCount = 0;
             }
 
-            Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>();
+            Camera playerCamera = currentPlayer.GetComponentInChildren<Camera>(true);
 
             bool aboveThree = i > 1;
 
