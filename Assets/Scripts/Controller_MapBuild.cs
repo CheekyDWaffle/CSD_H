@@ -13,6 +13,7 @@ public class Controller_MapBuild : MonoBehaviour
         public RectTransform cursor;
         public Vector2 lerpPosition;
         public Vector2 gridPosition;
+        public bool hasPlacedHazard;
     }
 
     [Header("Assign")]
@@ -102,17 +103,38 @@ public class Controller_MapBuild : MonoBehaviour
 
         for (int i = 0; i < playerObjects.Length; i++)
             BuildPhase(i, playerObjects[i].GetComponent<Controller_Vehicle>());
-    }
 
-    void BuildPhase(int playerIndex, Controller_Vehicle currentVehicle)
+
+								#region Check if all players are done
+								bool allPlayersHasPlacedHazard = true;
+
+        for (int i = 0; i < playerObjects.Length; i++)
+            if (!players[i].hasPlacedHazard)
+            {
+                allPlayersHasPlacedHazard = false;
+                break;
+            }
+
+        if(allPlayersHasPlacedHazard)
+        {
+            for (int i = 0; i < playerObjects.Length; i++)
+                players[i].hasPlacedHazard = false;
+
+            buildModeChangeTimer = Manager_UI.Get().Fade_Black();
+        }
+								#endregion
+
+				}
+
+				void BuildPhase(int playerIndex, Controller_Vehicle currentVehicle)
 				{
 								Player currentMarker = players[playerIndex];
-        buildMarkers[playerIndex].SetActive(true);
-        builderUIArray[playerIndex].gameObject.SetActive(true);
+        buildMarkers[playerIndex].SetActive(!currentMarker.hasPlacedHazard);
+        builderUIArray[playerIndex].gameObject.SetActive(!currentMarker.hasPlacedHazard);
 
         currentVehicle.pauseCar = isInBuildMode;
 
-        if (!isInBuildMode)
+        if (!isInBuildMode || currentMarker.hasPlacedHazard)
             return;
 
         #region Buildphase inputs, markers, etc
@@ -142,8 +164,7 @@ public class Controller_MapBuild : MonoBehaviour
 
         if (currentVehicle.NewInput.placeHazard)
         {
-            managerHazard.SpawnHazard();
-
+            currentMarker.hasPlacedHazard = managerHazard.SpawnHazard(); // returns True if it worked.
             currentVehicle.NewInput.placeHazard = false;
         }
 

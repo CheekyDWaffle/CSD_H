@@ -32,8 +32,10 @@ public class HazardManager : MonoBehaviour
         lastVector3 = raycastOrigin;
     }
 
-    public void SpawnHazard()
+    public bool SpawnHazard()
     {
+        bool successfullyPlacedHazard = false;
+
         if (selectedTrack.availableHazards.Count != 0)
         {
             switch (builderUI.currentEnum)
@@ -52,7 +54,11 @@ public class HazardManager : MonoBehaviour
             }
             selectedTrack.availableHazards.Remove(builderUI.currentEnum);
             Getlist();
+
+            successfullyPlacedHazard = true;
         }
+
+        return successfullyPlacedHazard;
 
     }
     public void RandomSpawn()
