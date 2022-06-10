@@ -136,7 +136,7 @@ MonoBehaviour:
   speed_Base_kmh: 140
   reverseSpeedPercentage: 0.2
   brakeStrength: 2
-  handbrakeStrength: 1
+  handbrakeStrength: 2
   handbrakeTurnMultiplier: 3.5
   roadGrip: 0.9
   turnSpeed: 30
@@ -171,6 +171,9 @@ MonoBehaviour:
     turning: 0
     isDrifting: 0
     onBrakeReverse: 0
+    navigateBuild: {x: 0, y: 0}
+    navigateHazards: 0
+    placeHazard: 0
 --- !u!65 &1212367852590661430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -223,7 +226,7 @@ AudioSource:
   m_GameObject: {fileID: 9085944114988888870}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2741455282934491615, guid: 9dd46cb5704793a47aed5dad1926f4a1, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.363
