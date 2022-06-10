@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 public class Controller_Vehicle : MonoBehaviour
 {
     [Header("Attributes")]
@@ -463,6 +464,11 @@ public class Controller_Vehicle : MonoBehaviour
     {
         NewInput.placeHazard = value.Get<float>() != 0;
 
+    }
+    void OnEscapeButton()
+    {
+        print("quiting");
+        SceneManager.LoadScene("Main Menu");
     }
     #endregion
 }
