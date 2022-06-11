@@ -155,6 +155,8 @@ MonoBehaviour:
   DriftSmoke:
   - {fileID: 293200741879850957}
   - {fileID: 4241063396422501152}
+  - {fileID: 293200741765681957}
+  - {fileID: 4241063395972806600}
   startPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0}
   startRight: {x: 0, y: 0, z: 0}
@@ -370,6 +372,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9a943e039675e74d833cd7c95e838b3, type: 3}
+--- !u!198 &293200741765681957 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198000012283690144, guid: e9a943e039675e74d833cd7c95e838b3, type: 3}
+  m_PrefabInstance: {fileID: 481541507470471045}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &293200741879850957 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198000012368742472, guid: e9a943e039675e74d833cd7c95e838b3, type: 3}
@@ -574,6 +581,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9a943e039675e74d833cd7c95e838b3, type: 3}
+--- !u!198 &4241063395972806600 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198000012283690144, guid: e9a943e039675e74d833cd7c95e838b3, type: 3}
+  m_PrefabInstance: {fileID: 4063415945655208808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &4241063396422501152 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198000012368742472, guid: e9a943e039675e74d833cd7c95e838b3, type: 3}
