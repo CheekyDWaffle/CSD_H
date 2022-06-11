@@ -468,6 +468,7 @@ public class Controller_Vehicle : MonoBehaviour
     void OnEscapeButton()
     {
         print("quiting");
+        SceneManager.UnloadScene("CarTest 2");
         SceneManager.LoadScene("Main Menu");
     }
     #endregion
