@@ -463,6 +463,7 @@ public class Controller_Vehicle : MonoBehaviour
     void OnPlaceHazard(InputValue value)
     {
         NewInput.placeHazard = value.Get<float>() != 0;
+
     }
     void OnEscapeButton()
     {
