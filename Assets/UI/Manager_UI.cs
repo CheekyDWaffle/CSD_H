@@ -121,8 +121,6 @@ public class Manager_UI : MonoBehaviour
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        Fade_Black();
-
         int playerCount = Mathf.Min(players.Length, 4);
         bool everyOther = false;
 
