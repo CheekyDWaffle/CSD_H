@@ -164,8 +164,9 @@ public class Controller_MapBuild : MonoBehaviour
 
         if (currentVehicle.NewInput.placeHazard)
         {
+            currentVehicle.NewInput.placeHazard = false; // If this goes first, then the button resets even if the hazardmanager bugs out.
             currentMarker.hasPlacedHazard = managerHazard.SpawnHazard(); // returns True if it worked.
-            currentVehicle.NewInput.placeHazard = false;
+
         }
 
 
