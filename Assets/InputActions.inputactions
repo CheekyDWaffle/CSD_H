@@ -70,12 +70,12 @@
                 },
                 {
                     "name": "PlaceHazard",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "1f9090da-6b73-4d00-b7ac-2617187bbc0b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "EscapeButton",

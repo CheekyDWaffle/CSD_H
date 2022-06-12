@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/CarTest 2.unity
     guid: ddcb9d242608f53448b47bc868a32029
   - enabled: 1
-    path: Assets/Scenes/EndScrene.unity
+    path: Assets/Scenes/EndScreen.unity
     guid: 0fd8a91b7a4ee574dab759afe0852ce4
   m_configObjects: {}
