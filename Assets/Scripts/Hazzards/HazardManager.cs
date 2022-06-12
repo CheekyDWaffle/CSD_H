@@ -47,7 +47,7 @@ public class HazardManager : MonoBehaviour
                     RandomSpawn();
                     break;
                 case 2:
-
+                    ActivateHazard();
                     break;
                 default:
                     break;
