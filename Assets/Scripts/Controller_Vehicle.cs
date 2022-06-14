@@ -36,6 +36,8 @@ public class Controller_Vehicle : MonoBehaviour
     public string currentSpeed;
     public int lapCount = 0;
     public bool isGoingReverse = false;
+    [HideInInspector]public int previousGoal = -1;
+
 
     [Header("Particles")]
     public ParticleSystem[] DriftSmoke;
@@ -107,8 +109,7 @@ public class Controller_Vehicle : MonoBehaviour
 
         #region Misc. Timers, like death and respawn
 
-        if (goalCooldwon < 0 && goalManager.isPassingGoal(transform, velocity, isGoingReverse, lapCount, out isGoingReverse, out lapCount))
-            goalCooldwon = 0.5f;
+        goalManager.isPassingGoal(transform, velocity, isGoingReverse, lapCount, out isGoingReverse, out lapCount);
 
         if (deathTimer != -1)
         {

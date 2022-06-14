@@ -24,67 +24,80 @@ public class Manager_Goals : MonoBehaviour
     void Update()
     {
         DrawGoal();
+        DrawGoal(1);
     }
 
-    public void DrawGoal()
+    public void DrawGoal(int i = 0)
     {
         Vector3 forward = Quaternion.AngleAxis(goalForward, Vector3.up) * Vector3.forward;
         Vector3 right = Quaternion.AngleAxis(goalForward, Vector3.up) * Vector3.right;
 
-        Debug.DrawRay(goalPosition, forward * goalWidth / 2, Color.red);
-        Debug.DrawRay(goalPosition, right * goalWidth / 2, Color.blue);
-        Debug.DrawRay(goalPosition, -right * goalWidth / 2, Color.cyan);
+        Debug.DrawRay(goalPosition + forward * i * goalWidth, forward * goalWidth / 2, Color.red);
+        Debug.DrawRay(goalPosition + forward * i * goalWidth, right * goalWidth / 2, Color.blue);
+        Debug.DrawRay(goalPosition + forward * i * goalWidth, -right * goalWidth / 2, Color.cyan);
     }
 
-    public bool isPassingGoal(Transform target, Vector3 velocity, bool wasGoingReverse, int lastLapCount, out bool isGoingReverse, out int lapCount)
+    public void isPassingGoal(Transform target, Vector3 velocity, bool wasGoingReverse, int lastLapCount, out bool isGoingReverse, out int lapCount)
     {
-
         /// Note: Right now it checks the center of the car, not front. I'll get on that eventually.
-        bool goOnCooldown = false;
         float distance = Vector3.Distance(target.position, goalPosition);
 
         isGoingReverse = wasGoingReverse;
         lapCount = lastLapCount;
 
-        if (distance > goalWidth)
-            return false;
+        if (distance > goalWidth * 3)
+            return;
 
-        Vector3 forward = Quaternion.AngleAxis(goalForward, Vector3.up) * Vector3.forward;
-        Vector3 right = Quaternion.AngleAxis(goalForward, Vector3.up) * Vector3.right;
+        Controller_Vehicle carScript = target.GetComponent<Controller_Vehicle>();
 
-        Vector3 directionToGoal = target.position - goalPosition;
 
-        float positionDot = Vector3.Dot(directionToGoal.normalized, forward);
-        float velocityDot = Vector3.Dot(velocity, forward);
+        bool isInfrontOfGoal = false;
+        bool isMovingForward = false;
 
-        bool isInfrontOfGoal = positionDot > 0 && positionDot < 0.5f;
-        bool isMovingForward = velocityDot > 0;
+        int currentPosition = 0;
+        int PreviousPosition = carScript.previousGoal;
 
-        if (isInfrontOfGoal)
+        for (int i = 0; i < 2; i++)
         {
-            if (isMovingForward && !wasGoingReverse)
-            {
-                lapCount++;
-                isGoingReverse = false;
-                goOnCooldown = true;
-                OnPassGoal(target.GetComponent<Controller_Vehicle>(), lapCount);
-            }
+            Vector3 forward = Quaternion.AngleAxis(goalForward, Vector3.up) * Vector3.forward;
+            Vector3 right = Quaternion.AngleAxis(goalForward, Vector3.up) * Vector3.right;
 
-            if (isMovingForward && wasGoingReverse)
-            {
-                isGoingReverse = false;
-                goOnCooldown = true;
-            }
+            Vector3 directionToGoal = target.position - (goalPosition + forward * i * goalWidth);
 
-            if (!isMovingForward)
-            {
-                isGoingReverse = true;
+            float positionDot = Vector3.Dot(directionToGoal.normalized, forward);
+            float velocityDot = Vector3.Dot(velocity, forward);
 
-            }
+            isInfrontOfGoal = positionDot > 0;
+            isMovingForward = velocityDot > 0;
 
+
+            if(isInfrontOfGoal)
+                currentPosition = 1 + i;
         }
 
-        return goOnCooldown;
+        if (!carScript.isGoingReverse && currentPosition == 0 && PreviousPosition == 2)
+            PreviousPosition = 0;
+        
+        if (currentPosition < PreviousPosition)
+            carScript.isGoingReverse = true;
+        
+        if (currentPosition > PreviousPosition)
+        {
+            if (currentPosition == 2 && !carScript.isGoingReverse) // Index 1 would be the first real line. This is only triggered on the tick currentPosition increases.
+            {
+                carScript.isGoingReverse = false;
+
+                Debug.Log("New Lap");
+
+                lapCount++;
+                OnPassGoal(carScript, lapCount);
+            }
+
+            if (currentPosition == 2)
+                carScript.isGoingReverse = false;
+        }
+
+        carScript.previousGoal = currentPosition;
     }
 
     private void OnPassGoal(Controller_Vehicle player, int lapCount)
@@ -102,6 +115,7 @@ public class Manager_Goals : MonoBehaviour
             {
                 players[i].GetComponent<Controller_Vehicle>().Reset();
                 players[i].GetComponent<Controller_Vehicle>().lapCount = lapCount;
+                players[i].GetComponent<Controller_Vehicle>().isGoingReverse = true; // Reset progress relative to the finish line.
             }
 
             GetComponent<Controller_MapBuild>().buildModeChangeTimer = Manager_UI.Get().Fade_Black();

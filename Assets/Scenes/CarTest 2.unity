@@ -7829,7 +7829,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1076.6
+      value: 1132
       objectReference: {fileID: 0}
     - target: {fileID: 9085944114988888868, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7862,10 +7862,6 @@ PrefabInstance:
     - target: {fileID: 9085944114988888870, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
       propertyPath: m_Name
       value: The Car
-      objectReference: {fileID: 0}
-    - target: {fileID: 9085944114988888871, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
-      propertyPath: speed_Base_kmh
-      value: 140
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d52e3133fdb0fc9449527221fb812a48, type: 3}
@@ -12130,14 +12126,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1059018778, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
-      propertyPath: endScene
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1059018778, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
-      propertyPath: totalLapCount
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1230900219900436729, guid: 2dcd2adbbdd9bb64fa63712376eb1e37, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

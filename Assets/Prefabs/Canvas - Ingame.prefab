@@ -1211,18 +1211,22 @@ MonoBehaviour:
     cursor: {fileID: 1159675307}
     lerpPosition: {x: 0, y: 0}
     gridPosition: {x: 0, y: 0}
+    hasPlacedHazard: 0
   - name: Player2
     cursor: {fileID: 1159675307}
     lerpPosition: {x: 0, y: 0}
     gridPosition: {x: 0, y: 0}
+    hasPlacedHazard: 0
   - name: Player3
     cursor: {fileID: 1159675307}
     lerpPosition: {x: 0, y: 0}
     gridPosition: {x: 0, y: 0}
+    hasPlacedHazard: 0
   - name: Player4
     cursor: {fileID: 1159675307}
     lerpPosition: {x: 0, y: 0}
     gridPosition: {x: 0, y: 0}
+    hasPlacedHazard: 0
   buildPhaseTransform: {fileID: 5441553957091838587}
   managerHazard: {fileID: 0}
   builderUIArray:
@@ -1246,11 +1250,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff927cd119d09a04bb382b1e37d579e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalLapCount: 1
-  goalPosition: {x: 1298, y: 1, z: 1098}
+  totalLapCount: 3
+  goalPosition: {x: 1298, y: 1, z: 1120}
   goalForward: 180
   goalWidth: 22
-  endScene: 0
+  endScene: 2
 --- !u!114 &1778950433
 MonoBehaviour:
   m_ObjectHideFlags: 0

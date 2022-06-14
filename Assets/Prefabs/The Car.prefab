@@ -152,7 +152,8 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   currentSpeed: 
   lapCount: 0
-  isGoingReverse: 0
+  isGoingReverse: 1
+  previousGoal: 0
   DriftSmoke:
   - {fileID: 293200741879850957}
   - {fileID: 4241063396422501152}
