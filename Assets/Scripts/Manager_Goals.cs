@@ -91,6 +91,7 @@ public class Manager_Goals : MonoBehaviour
 
                 lapCount++;
                 OnPassGoal(carScript, lapCount);
+                return;
             }
 
             if (currentPosition == 2)
@@ -115,6 +116,7 @@ public class Manager_Goals : MonoBehaviour
             {
                 players[i].GetComponent<Controller_Vehicle>().Reset();
                 players[i].GetComponent<Controller_Vehicle>().lapCount = lapCount;
+                players[i].GetComponent<Controller_Vehicle>().previousGoal = 99;
                 players[i].GetComponent<Controller_Vehicle>().isGoingReverse = true; // Reset progress relative to the finish line.
             }
 
