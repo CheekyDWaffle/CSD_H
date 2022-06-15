@@ -71,8 +71,18 @@ public class Controller_MapBuild : MonoBehaviour
 				// Update is called once per frame
 				void Update()
     {
-        #region Buildmode Transition
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        #region Debug
+
+        if (Input.GetAxis("Horizontal_C_1") != 0 || Input.GetAxis("Horizontal_C_2") != 0)
+        {
+            Debug.LogError("If this shows up, Talha will get upsetti-spaghetti |" + Input.GetAxis("Horizontal_C_1") + "|" + Input.GetAxis("Horizontal_C_2"));
+        }
+
+								#endregion
+
+
+								#region Buildmode Transition
+								GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
         for (int i = 0; i < playerObjects.Length; i++)
         {
             Controller_Vehicle currentCar = playerObjects[i].GetComponent<Controller_Vehicle>();
