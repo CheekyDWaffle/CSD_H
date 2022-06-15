@@ -88,6 +88,12 @@ public class Controller_MapBuild : MonoBehaviour
             {
                 isInBuildMode = !isInBuildMode;
 
+                for (int i = 0; i < playerObjects.Length; i++)
+                {
+                    Controller_Vehicle currentCar = playerObjects[i].GetComponent<Controller_Vehicle>();
+                    currentCar.NewInput.placeHazard = false;
+                }
+
                 buildModeChangeTimer = -1;
             }
         }
