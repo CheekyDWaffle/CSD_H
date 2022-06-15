@@ -88,13 +88,15 @@ public class Controller_MapBuild : MonoBehaviour
             {
                 isInBuildMode = !isInBuildMode;
 
+                #region bandaid fix: Controller Input doesn't properly reset the "Place Hazard" input
                 for (int i = 0; i < playerObjects.Length; i++)
                 {
                     Controller_Vehicle currentCar = playerObjects[i].GetComponent<Controller_Vehicle>();
-                    currentCar.NewInput.placeHazard = false;
+                    currentCar.NewInput.placeHazard = false; 
                 }
+																#endregion
 
-                buildModeChangeTimer = -1;
+																buildModeChangeTimer = -1;
             }
         }
 
