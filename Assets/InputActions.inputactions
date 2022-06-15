@@ -144,6 +144,28 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "5b93436c-0bac-4d6e-8f37-ee84b99f626d",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b54d51d-5795-40c3-864a-b28032045968",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "1D Axis",
                     "id": "6b563b24-e991-4e8f-b264-a23c53095650",
                     "path": "1DAxis",

@@ -44,9 +44,9 @@ public class Controller_MapBuild : MonoBehaviour
         gridCheck = new bool[10, 10];
         cameraTransform = GetComponentInChildren<Camera>(true).transform;
 
-								#region Marker Setup
+        #region Marker Setup
 
-								int maxPlayerNumber = 4;
+        int maxPlayerNumber = 4;
 
         buildMarkers = new GameObject[maxPlayerNumber];
 
@@ -65,18 +65,13 @@ public class Controller_MapBuild : MonoBehaviour
 
         for (int i = 0; i < builderUIArray.Length; i++)
             builderUIArray[i].gameObject.SetActive(false);
-        
+
     }
 
-				// Update is called once per frame
-				void Update()
+    // Update is called once per frame
+    void Update()
     {
         #region Debug
-
-        if (Input.GetAxis("Horizontal_C_1") != 0 || Input.GetAxis("Horizontal_C_2") != 0)
-        {
-            Debug.LogError("If this shows up, Talha will get upsetti-spaghetti |" + Input.GetAxis("Horizontal_C_1") + "|" + Input.GetAxis("Horizontal_C_2"));
-        }
 
 								#endregion
 
@@ -123,8 +118,8 @@ public class Controller_MapBuild : MonoBehaviour
             BuildPhase(i, playerObjects[i].GetComponent<Controller_Vehicle>());
 
 
-								#region Check if all players are done
-								bool allPlayersHasPlacedHazard = true;
+        #region Check if all players are done
+        bool allPlayersHasPlacedHazard = true;
 
         for (int i = 0; i < playerObjects.Length; i++)
             if (!players[i].hasPlacedHazard)
@@ -133,20 +128,24 @@ public class Controller_MapBuild : MonoBehaviour
                 break;
             }
 
-        if(allPlayersHasPlacedHazard)
+        if (allPlayersHasPlacedHazard)
         {
             for (int i = 0; i < playerObjects.Length; i++)
+            {
                 players[i].hasPlacedHazard = false;
+                print(players[i].hasPlacedHazard);
+            }
+            print("buildmode end");
 
             buildModeChangeTimer = Manager_UI.Get().Fade_Black();
         }
-								#endregion
+        #endregion
 
-				}
+    }
 
-				void BuildPhase(int playerIndex, Controller_Vehicle currentVehicle)
-				{
-								Player currentMarker = players[playerIndex];
+    void BuildPhase(int playerIndex, Controller_Vehicle currentVehicle)
+    {
+        Player currentMarker = players[playerIndex];
         buildMarkers[playerIndex].SetActive(!currentMarker.hasPlacedHazard);
         builderUIArray[playerIndex].gameObject.SetActive(!currentMarker.hasPlacedHazard);
 
@@ -174,8 +173,8 @@ public class Controller_MapBuild : MonoBehaviour
         managerHazard.builderUI = builderUIArray[playerIndex];
         managerHazard.Getlist();
 
-        if(currentVehicle.NewInput.navigateHazards != 0)
-								{
+        if (currentVehicle.NewInput.navigateHazards != 0)
+        {
             builderUIArray[playerIndex].DisplayChange(Mathf.RoundToInt(currentVehicle.NewInput.navigateHazards));
             currentVehicle.NewInput.navigateHazards = 0;
         }
@@ -188,6 +187,6 @@ public class Controller_MapBuild : MonoBehaviour
         }
 
 
-            #endregion
-        }
+        #endregion
+    }
 }
