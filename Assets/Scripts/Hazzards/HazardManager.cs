@@ -35,7 +35,9 @@ public class HazardManager : MonoBehaviour
     public bool SpawnHazard()
     {
         bool successfullyPlacedHazard = false;
-
+        if (selectedTrack.availableHazards == null)
+            return successfullyPlacedHazard = false;
+        
         if (selectedTrack.availableHazards.Count != 0)
         {
             switch (builderUI.currentEnum)
